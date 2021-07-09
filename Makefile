@@ -1,21 +1,27 @@
-NAME = minishell
+NAME =		minishell
 
-SRC = main.c
+FLAGS =		-g3 -fsanitize=address -Wall -Wextra -Werror
 
-SRCS_DIR = srcs/
+SRC =		main.c
 
-SRCS = $(addprefix $(SRCS_DIR), $(SRC))
+SRCS_DIR =	./srcs/
 
-OBJS = $(SRCS:c=o)
+SRCS =		$(addprefix $(SRCS_DIR), $(SRC))
 
-all: $(NAME)
+OBJS =		$(SRCS:c=o)
 
-$(NAME): $(OBJS)
+all:		$(NAME)
+
+$(NAME):	$(OBJS) includes/minishell.h
+			$(MAKE) -C libft
+			gcc $(FLAGS) $(OBJS) -I./includes/ -L./libft/ -lft -lreadline -o minishell
 
 clean:
-	rm -rf $(OBJS)
+			$(MAKE) clean -C ./libft
+			rm -rf $(OBJS)
 
-fclean: clean
-	rm -rf $(NAME)
+fclean:		clean
+			rm -rf libft/libft.a
+			rm -rf $(NAME)
 
-re: fclean all
+re:			fclean all
