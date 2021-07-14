@@ -5,3 +5,5 @@
 #include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+
+void	pwd(void);
