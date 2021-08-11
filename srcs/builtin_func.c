@@ -26,7 +26,7 @@ void	echo(char **line)
 		printf("%s", line[i]);
 		i++;
 	}
-	printf("\n");ды
+	printf("\n");
 }
 
 int main(int argc, char **argv)
