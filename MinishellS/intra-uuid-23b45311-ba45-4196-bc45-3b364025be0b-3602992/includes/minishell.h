@@ -32,7 +32,6 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "minishell.h"
 
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
