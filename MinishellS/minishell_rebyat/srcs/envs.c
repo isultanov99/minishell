@@ -22,6 +22,7 @@ t_env	*env_add(t_env *list, char *env, int secret)
 	}
 	else
 	{
+		new->prev = 0;
 		return (new);
 	}
 	return (list);
