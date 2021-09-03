@@ -1,5 +1,11 @@
 #include "minishell_reverse.h"
 
+void	set_sig(void)
+{
+	signal(SIGINT, sig_int);
+	signal(SIGQUIT, sig_quit);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
