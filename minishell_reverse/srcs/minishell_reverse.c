@@ -1,7 +1,7 @@
-#include "../includes/minishell_reverse.h"
+#include "../includes/minishell.h"
 
 /*
-builtins/ft_cd.c
+builtins/cd.c
 */
 void	cd_print_error(char *path, int fd)
 {
@@ -12,11 +12,15 @@ void	cd_print_error(char *path, int fd)
 	write(fd, "\n", 1);
 }
 
-int	without_arg(int fd, char *pwd_path)
+/* 
+ * ПРОВЕРИТЬ НА УТЕЧКИ
+*/
+
+int	no_arg(int fd, char *pwd_path)
 {
 	char	*home_path;
 
-	home_path = env_get_var("HOME");
+	home_path = getenv("HOME");
 	if (home_path == NULL)
 	{
 		ft_putstr_fd("cd: HOME not set\n", fd);
@@ -26,12 +30,12 @@ int	without_arg(int fd, char *pwd_path)
 	{
 		env_change_var("OLDPWD", pwd_path);
 		env_change_var("PWD", home_path);
-		free(home_path);
+		// free(home_path);
 	}
 	else
 	{
 		cd_print_error(home_path, fd);
-		free(home_path);
+		// free(home_path);
 		return (1);
 	}
 	return (0);
@@ -58,6 +62,9 @@ int	with_arg(int fd, char *path, char *cwd_path, char *pwd_path)
 /*
 **	path - папка назначения
 */
+/* 
+ * ПРОВЕРИТЬ НА УТЕЧКИ
+*/
 
 int	ft_cd(t_cmd *cmd)
 {
@@ -65,19 +72,19 @@ int	ft_cd(t_cmd *cmd)
 	char	*path;
 	char	*cwd_path;
 	char	*pwd_path;
-	int		ret;
+	int		result;
 
 	fd = cmd->output;
 	path = cmd->args[1];
 	cwd_path = getcwd(NULL, 0);
-	pwd_path = env_get_var("PWD");
-	if (path == NULL)
-		ret = without_arg(fd, pwd_path);
+	pwd_path = getenv("PWD");
+	if (!path)
+		result = no_arg(fd, pwd_path);
 	else
-		ret = with_arg(fd, path, cwd_path, pwd_path);
+		result = with_arg(fd, path, cwd_path, pwd_path);
 	free(cwd_path);
-	free(pwd_path);
-	return (ret);
+	// free(pwd_path);
+	return (result);
 }
 
 /*
@@ -88,7 +95,7 @@ builtins/ft_echo.c
 **	возвращает 0, если это опция, иначе - 1
 */
 
-int	echo_opt(char *str)
+int	echo_aux(char *str)
 {
 	int		i;
 
@@ -122,17 +129,17 @@ int	ft_echo(t_cmd *cmd)
 	int		fd;
 	char	**params;
 	int		i;
-	int		opt;
+	int		option;
 
 	fd = cmd->output;
 	params = cmd->args;
 	i = 1;
 	if (check_params(params[i], fd) == 1)
 		return (0);
-	opt = 0;
-	if (echo_opt(params[i]) == 0)
-		opt = 1;
-	while (params[i] && echo_opt(params[i]) == 0)
+	option = 0;
+	if (echo_aux(params[i]) == 0)
+		option = 1;
+	while (params[i] && echo_aux(params[i]) == 0)
 		i++;
 	while (params[i])
 	{
@@ -141,13 +148,13 @@ int	ft_echo(t_cmd *cmd)
 			write(fd, " ", 1);
 		i++;
 	}
-	if (opt == 0)
+	if (option == 0)
 		write(fd, "\n", 1);
 	return (0);
 }
 
 /*
-builtins/ft_env.c
+builtins/env.c
 */
 int	ft_env(t_cmd *cmd)
 {
@@ -647,7 +654,7 @@ void	fork_cmd_routine(t_cmd *cmd)
 {
 	char	**tmp;
 
-	tmp = ft_envp_arr();
+	tmp = envp_arr();
 	dup2(cmd->input, STDIN_FILENO);
 	dup2(cmd->output, STDOUT_FILENO);
 	close_pipes(cmd);
@@ -1087,7 +1094,7 @@ char	*env_get_var(char *var)
 **	создаёт отдельный двумерный массив из односвязного списка env
 */
 
-char	**ft_envp_arr(void)
+char	**envp_arr(void)
 {
 	t_list	*envp_list;
 	char	**envp_arr;
@@ -1106,7 +1113,7 @@ char	**ft_envp_arr(void)
 	return (envp_arr);
 }
 
-void	ft_envp_arr_free(char **envp_arr)
+void	envp_arr_free(char **envp_arr)
 {
 	int		i;
 

@@ -92,8 +92,8 @@ char	*env_get_var(char *var);
 int		env_delete_var(char *var);
 t_list	*env_get_str(char *var, int var_size);
 void	shlvl_set(void);
-char	**ft_envp_arr(void);
-void	ft_envp_arr_free(char **envp_arr);
+char	**envp_arr(void);
+void	envp_arr_free(char **envp_arr);
 
 /*
 **	dlist
@@ -132,11 +132,11 @@ void	reset_term(void);
 */
 
 int		ft_echo(t_cmd *cmd);
-int		ft_cd(t_cmd *cmd);
+int		cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd);
-int		ft_env(t_cmd *cmd);
+int		env(t_cmd *cmd);
 int		ft_exit(t_cmd *cmd);
 void	export_print(int fd);
 int		var_valid(char *var);
