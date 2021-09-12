@@ -255,7 +255,7 @@ t_list	*env_dup(void)
 	t_list	*begin_env;
 	t_list	*dup_env;
 
-	begin_env = g_data.env;
+	begin_env = g_main.env;
 	dup_env = NULL;
 	while (begin_env)
 	{
@@ -553,7 +553,6 @@ void	shlvl_set(void)
 	free(shlvl);
 }
 
-
 /*
 cmd/cmd_utils.c
 */
@@ -625,26 +624,26 @@ t_cmd	*cmd_init(void)
 /*
 cmd/exec_cmd.c
 */
-int	choose_builin(t_cmd *cmd)
+int	choose_builtin(t_cmd *cmd)
 {
 	if (!cmd->args)
 		return (0);
 	if (cmd->file_error)
 		return (1);
 	if (ft_strcmp("echo", cmd->args[0]) == 0)
-		g_data.status = ft_echo(cmd);
+		g_main.status = ft_echo(cmd);
 	else if (ft_strcmp("cd", cmd->args[0]) == 0)
-		g_data.status = ft_cd(cmd);
+		g_main.status = ft_cd(cmd);
 	else if (ft_strcmp("pwd", cmd->args[0]) == 0)
-		g_data.status = ft_pwd(cmd);
+		g_main.status = ft_pwd(cmd);
 	else if (ft_strcmp("export", cmd->args[0]) == 0)
-		g_data.status = ft_export(cmd);
+		g_main.status = ft_export(cmd);
 	else if (ft_strcmp("unset", cmd->args[0]) == 0)
-		g_data.status = ft_unset(cmd);
+		g_main.status = ft_unset(cmd);
 	else if (ft_strcmp("env", cmd->args[0]) == 0)
-		g_data.status = ft_env(cmd);
+		g_main.status = ft_env(cmd);
 	else if (ft_strcmp("exit", cmd->args[0]) == 0)
-		g_data.status = ft_exit(cmd);
+		g_main.status = ft_exit(cmd);
 	else
 		return (0);
 	return (1);
@@ -659,12 +658,12 @@ void	fork_cmd_routine(t_cmd *cmd)
 	dup2(cmd->output, STDOUT_FILENO);
 	close_pipes(cmd);
 	if (!(get_path(cmd, tmp)))
-		exit(g_data.status);
+		exit(g_main.status);
 	if (cmd->file_error)
-		exit(g_data.status);
-	g_data.status = execve(cmd->path, cmd->args, tmp);
+		exit(g_main.status);
+	g_main.status = execve(cmd->path, cmd->args, tmp);
 	ft_free_array((void **)tmp);
-	if (g_data.status < 0)
+	if (g_main.status < 0)
 	{
 		if (errno == ENOEXEC)
 			exit(EXIT_SUCCESS);
@@ -676,24 +675,24 @@ void	fork_cmd_routine(t_cmd *cmd)
 		else
 			perror(cmd->args[0]);
 	}
-	exit (g_data.status);
+	exit (g_main.status);
 }
 
 void	single_cmd(t_cmd *cmd)
 {
 	int		status;
 
-	if (!choose_builin(cmd))
+	if (!choose_builtin(cmd))
 	{
-		g_data.sig_pid = fork();
-		if (g_data.sig_pid == 0)
+		g_main.sig_pid = fork();
+		if (g_main.sig_pid == 0)
 			fork_cmd_routine(cmd);
-		else if (g_data.sig_pid < 0)
+		else if (g_main.sig_pid < 0)
 			exit(EXIT_FAILURE);
 		wait(&status);
-		if (g_data.status != 130 && g_data.status != 131)
-			g_data.status = WEXITSTATUS(status);
-		g_data.sig_pid = 0;
+		if (g_main.status != 130 && g_main.status != 131)
+			g_main.status = WEXITSTATUS(status);
+		g_main.sig_pid = 0;
 	}
 }
 
@@ -703,23 +702,23 @@ void	multi_cmd(t_cmd *cmd)
 
 	while (cmd)
 	{
-		g_data.sig_pid = fork();
-		if (g_data.sig_pid == 0)
+		g_main.sig_pid = fork();
+		if (g_main.sig_pid == 0)
 		{
-			if (!choose_builin(cmd))
+			if (!choose_builtin(cmd))
 				fork_cmd_routine(cmd);
 			else
-				exit(g_data.status);
+				exit(g_main.status);
 		}
-		else if (g_data.sig_pid < 0)
+		else if (g_main.sig_pid < 0)
 			exit(EXIT_FAILURE);
 		if (!cmd->next)
 			close_pipes(cmd);
 		cmd = cmd->next;
 	}
 	while (wait(&status) != -1 && errno != ECHILD)
-		g_data.status = WEXITSTATUS(status);
-	g_data.sig_pid = 0;
+		g_main.status = WEXITSTATUS(status);
+	g_main.sig_pid = 0;
 }
 
 void	exec_cmd(t_cmd *cmd)
@@ -743,7 +742,6 @@ void	*path_name(char *path, char *cmd_name, t_cmd *cmd)
 {
 	struct stat	buff;
 	char		*new;
-	int			fd;
 
 	new = ft_strdup(path);
 	new = ft_strnjoin(new, "/", 1);
@@ -771,7 +769,7 @@ int	check_path(char **path, t_cmd *cmd)
 	}
 	ft_putstr_fd(cmd->args[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
-	g_data.status = 127;
+	g_main.status = 127;
 	return (0);
 }
 
@@ -785,14 +783,14 @@ int	check_file(t_cmd *cmd)
 		{
 			ft_putstr_fd(cmd->args[0], 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-			g_data.status = 127;
+			g_main.status = 127;
 			return (-1);
 		}
 		else if (S_ISDIR(buff.st_mode))
 		{
 			ft_putstr_fd(cmd->args[0], 2);
 			ft_putstr_fd(": Is a directory\n", 2);
-			g_data.status = 126;
+			g_main.status = 126;
 			return (-1);
 		}
 		else
@@ -820,7 +818,7 @@ void	*get_path(t_cmd *cmd, char **envp)
 	if (!path)
 	{
 		ft_putstr_fd("Error: cannot find PATH variable\n", 2);
-		g_data.status = 1;
+		g_main.status = 1;
 		return (ft_free_array((void **)path));
 	}
 	if ((check_file(cmd)) == -1)
@@ -868,7 +866,7 @@ void	env_get(char **envp)
 		ft_lstadd_back(&list, ft_lstnew(ft_strdup(envp[i])));
 		i++;
 	}
-	g_data.env = list;
+	g_main.env = list;
 }
 
 /*
@@ -896,7 +894,7 @@ void	env_print(int fd)
 {
 	t_list	*cp;
 
-	cp = g_data.env;
+	cp = g_main.env;
 	while (cp)
 	{
 		if (ft_strchr((char *)cp->content, '='))
@@ -918,7 +916,7 @@ static t_list	*env_get_pre_str(char *var, int var_size)
 {
 	t_list	*cp;
 
-	cp = g_data.env;
+	cp = g_main.env;
 	if (cp && ft_strncmp((char *)cp->content, var, var_size) == 0
 		&& (((char*)cp->content)[var_size] == '='
 		|| ((char*)cp->content)[var_size] == '\0'))
@@ -953,7 +951,7 @@ int	env_delete_var(char *var)
 		return (1);
 	pre = env_get_pre_str(var, var_size);
 	if (pre == NULL)
-		g_data.env = str->next;
+		g_main.env = str->next;
 	else
 		pre->next = str->next;
 	free(str->content);
@@ -992,7 +990,7 @@ void	env_add_new_var(char *var, char *value)
 	char	*new_str;
 
 	new_str = env_new_str(var, value);
-	ft_lstadd_back(&(g_data.env), ft_lstnew(new_str));
+	ft_lstadd_back(&(g_main.env), ft_lstnew(new_str));
 }
 
 /*
@@ -1029,7 +1027,7 @@ t_list	*env_get_str(char *var, int var_size)
 {
 	t_list	*cp;
 
-	cp = g_data.env;
+	cp = g_main.env;
 	while (cp)
 	{
 		if (ft_strncmp((char *)cp->content, var, var_size) == 0
@@ -1100,7 +1098,7 @@ char	**envp_arr(void)
 	char	**envp_arr;
 	int		i;
 
-	envp_list = g_data.env;
+	envp_list = g_main.env;
 	envp_arr = (char **)malloc(sizeof(char *) * (ft_lstsize(envp_list) + 1));
 	i = 0;
 	while (envp_list)
@@ -1191,12 +1189,12 @@ void	dlist_free(t_dlist *dlist)
 
 void	dlist_end(void)
 {
-	g_data.history.hist_end = g_data.history.hist_start;
-	while (g_data.history.hist_end)
+	g_main.history.hist_end = g_main.history.hist_start;
+	while (g_main.history.hist_end)
 	{
-		if (g_data.history.hist_end->next == NULL)
+		if (g_main.history.hist_end->next == NULL)
 			break ;
-		g_data.history.hist_end = g_data.history.hist_end->next;
+		g_main.history.hist_end = g_main.history.hist_end->next;
 	}
 }
 
@@ -1212,23 +1210,23 @@ void	hist_create(void)
 	path = env_get_var("HOME");
 	file_name = ft_strjoin(path, "/.minishell_history");
 	free(path);
-	g_data.history.hist_fd
+	g_main.history.hist_fd
 		= open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0666);
-	close(g_data.history.hist_fd);
-	g_data.history.hist_start = NULL;
-	g_data.history.hist_fd = open(file_name, O_RDONLY);
-	while (get_next_line(g_data.history.hist_fd, &str) > 0)
+	close(g_main.history.hist_fd);
+	g_main.history.hist_start = NULL;
+	g_main.history.hist_fd = open(file_name, O_RDONLY);
+	while (get_next_line(g_main.history.hist_fd, &str) > 0)
 	{
-		dlist_add_back(&(g_data.history.hist_start), dlist_new(ft_strdup(str)));
+		dlist_add_back(&(g_main.history.hist_start), dlist_new(ft_strdup(str)));
 		free(str);
 	}
 	free(str);
-	close(g_data.history.hist_fd);
-	g_data.history.hist_fd
+	close(g_main.history.hist_fd);
+	g_main.history.hist_fd
 		= open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0666);
 	free(file_name);
 	dlist_end();
-	g_data.history.flag = 0;
+	g_main.history.flag = 0;
 }
 
 /*
@@ -1240,9 +1238,9 @@ void	hist_add_str(char *str)
 	char	str_size;
 
 	str_size = ft_strlen(str);
-	write(g_data.history.hist_fd, str, str_size);
-	write(g_data.history.hist_fd, "\n", 1);
-	dlist_add_back(&(g_data.history.hist_start), dlist_new(ft_strdup(str)));
+	write(g_main.history.hist_fd, str, str_size);
+	write(g_main.history.hist_fd, "\n", 1);
+	dlist_add_back(&(g_main.history.hist_start), dlist_new(ft_strdup(str)));
 }
 
 /*
@@ -1298,11 +1296,11 @@ void	dollar_status(char **line, char **superline)
 {
 	char	*tmp_status;
 
-	tmp_status = ft_itoa(g_data.status);
+	tmp_status = ft_itoa(g_main.status);
 	*superline = ft_strnjoin(*superline, tmp_status, ft_strlen(tmp_status));
 	free(tmp_status);
 	(*line)++;
-	g_data.status = 0;
+	g_main.status = 0;
 }
 
 void	dollar_get_value(char **line, char **superline, int len)
@@ -1323,8 +1321,6 @@ void	dollar_get_value(char **line, char **superline, int len)
 
 void	dollar(char **line, char **superline)
 {
-	char	*key;
-	char	*value;
 	int		i;
 
 	i = 0;
@@ -1484,8 +1480,8 @@ void	parse_cmd(char *line)
 {
 	t_cmd		*start;
 	t_cmd		*cmd;
-	char		*superline;
 
+	cmd = NULL;
 	start = NULL;
 	while (1)
 	{
@@ -1593,17 +1589,17 @@ int	get_input(char *stop, int heredoc_fd)
 	int	status;
 
 	reset_term();
-	g_data.sig_pid = fork();
-	if (g_data.sig_pid == 0)
+	g_main.sig_pid = fork();
+	if (g_main.sig_pid == 0)
 	{
 		signal(SIGINT, &sigint_handler);
 		signal(SIGQUIT, &sigquit_handler);
 		add_heredoc(stop, heredoc_fd);
 	}
-	else if (g_data.sig_pid < 0)
+	else if (g_main.sig_pid < 0)
 		exit(EXIT_FAILURE);
 	wait(&status);
-	g_data.sig_pid = 0;
+	g_main.sig_pid = 0;
 	close(heredoc_fd);
 	status = WTERMSIG(status);
 	return (status);
@@ -1650,7 +1646,7 @@ int	double_right(char **line)
 	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
 	if (fd < 0)
 	{
-		g_data.status = 1;
+		g_main.status = 1;
 		perror(file);
 	}
 	skip_spaces(line);
@@ -1671,7 +1667,7 @@ int	single_left(char **line)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		g_data.status = 1;
+		g_main.status = 1;
 		perror(file);
 	}
 	skip_spaces(line);
@@ -1692,7 +1688,7 @@ int	single_right(char **line)
 	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd < 0)
 	{
-		g_data.status = 1;
+		g_main.status = 1;
 		perror(file);
 	}
 	skip_spaces(line);
@@ -1717,7 +1713,6 @@ void	add_redirect(t_cmd *cmd, char **line)
 	if (cmd->input < 0 || cmd->output < 0)
 		cmd->file_error = 1;
 }
-
 
 /*
 term/input_1.c
@@ -1792,17 +1787,17 @@ char	*get_command(char *str, char *add)
 
 void	hist_or_command(char *buf)
 {
-	if (g_data.history.flag == 0)
+	if (g_main.history.flag == 0)
 	{
-		g_data.history.command_print++;
-		g_data.history.command
-			= get_command(g_data.history.command, ft_strdup(buf));
+		g_main.history.command_print++;
+		g_main.history.command
+			= get_command(g_main.history.command, ft_strdup(buf));
 	}
-	if (g_data.history.flag == 1)
+	if (g_main.history.flag == 1)
 	{
-		g_data.history.hist_print++;
-		g_data.history.hist_end->content
-			= get_command(g_data.history.hist_end->content, ft_strdup(buf));
+		g_main.history.hist_print++;
+		g_main.history.hist_end->content
+			= get_command(g_main.history.hist_end->content, ft_strdup(buf));
 	}
 }
 
@@ -1816,9 +1811,9 @@ void	input(void)
 	char	buf[4];
 
 	print_message();
-	g_data.history.command_print = 0;
-	g_data.history.command = NULL;
-	g_data.history.hist_buf = NULL;
+	g_main.history.command_print = 0;
+	g_main.history.command = NULL;
+	g_main.history.hist_buf = NULL;
 	while (1)
 	{
 		i = read(0, buf, 3);
@@ -1830,8 +1825,8 @@ void	input(void)
 		}
 		control_characters(buf);
 	}
-	free(g_data.history.command);
-	free(g_data.history.hist_buf);
+	free(g_main.history.command);
+	free(g_main.history.hist_buf);
 }
 
 /*
@@ -1839,27 +1834,27 @@ term/input_2.c
 */
 void	main_input(void)
 {
-	g_data.history.command = str_end(g_data.history.command);
-	if (g_data.history.command[0] != '\0')
+	g_main.history.command = str_end(g_main.history.command);
+	if (g_main.history.command[0] != '\0')
 	{
-		hist_add_str(g_data.history.command);
-		parse_cmd(g_data.history.command);
+		hist_add_str(g_main.history.command);
+		parse_cmd(g_main.history.command);
 	}
-	g_data.history.command_print = 0;
+	g_main.history.command_print = 0;
 	dlist_end();
 }
 
 void	hist_input(void)
 {
-	g_data.history.hist_end->content
-		= str_end(g_data.history.hist_end->content);
-	if (((char *)(g_data.history.hist_end->content))[0] != '\0')
+	g_main.history.hist_end->content
+		= str_end(g_main.history.hist_end->content);
+	if (((char *)(g_main.history.hist_end->content))[0] != '\0')
 	{
-		hist_add_str(g_data.history.hist_end->content);
-		parse_cmd(g_data.history.hist_end->content);
+		hist_add_str(g_main.history.hist_end->content);
+		parse_cmd(g_main.history.hist_end->content);
 	}
-	free(g_data.history.hist_end->content);
-	g_data.history.hist_end->content = ft_strdup(g_data.history.hist_buf);
+	free(g_main.history.hist_end->content);
+	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);
 	dlist_end();
 }
 
@@ -1870,24 +1865,24 @@ void	hist_input(void)
 
 static void	kenter(void)
 {
-	if (g_data.history.flag == 0)
+	if (g_main.history.flag == 0)
 		main_input();
-	if (g_data.history.flag == 1)
+	if (g_main.history.flag == 1)
 		hist_input();
-	free(g_data.history.command);
-	g_data.history.command = NULL;
+	free(g_main.history.command);
+	g_main.history.command = NULL;
 	print_message();
-	g_data.history.flag = 0;
+	g_main.history.flag = 0;
 }
 
 void	control_characters(char *str)
 {
 	if (ft_strncmp(str, "\4", 1) == 0)
 	{
-		if (g_data.history.flag == 0 && g_data.history.command_print > 0)
+		if (g_main.history.flag == 0 && g_main.history.command_print > 0)
 			ft_putstr_fd("\a", 1);
 		else
-			if (g_data.history.flag == 1 && g_data.history.hist_print > 0)
+			if (g_main.history.flag == 1 && g_main.history.hist_print > 0)
 				ft_putstr_fd("\a", 1);
 		else
 		{
@@ -1899,10 +1894,10 @@ void	control_characters(char *str)
 	{
 		tputs(tgetstr("cl", 0), 1, output_func);
 		print_message();
-		if (g_data.history.flag == 0)
-			ft_putstr_fd(g_data.history.command, 1);
-		if (g_data.history.flag == 1)
-			ft_putstr_fd(g_data.history.hist_end->content, 1);
+		if (g_main.history.flag == 0)
+			ft_putstr_fd(g_main.history.command, 1);
+		if (g_main.history.flag == 1)
+			ft_putstr_fd(g_main.history.hist_end->content, 1);
 	}
 	if (ft_strncmp(str, "\n", 1) == 0)
 		kenter();
@@ -1914,22 +1909,22 @@ term/keys.c
 */
 void	kup(void)
 {
-	if (g_data.history.hist_end == NULL)
+	if (g_main.history.hist_end == NULL)
 		ft_putstr_fd("\a", 1);
-	if (g_data.history.hist_end)
+	if (g_main.history.hist_end)
 	{
 		tputs(tgetstr("rc", 0), 1, output_func);
 		tputs(tgetstr("cd", 0), 1, output_func);
-		if (g_data.history.hist_end->prev == NULL && g_data.history.flag == 1)
+		if (g_main.history.hist_end->prev == NULL && g_main.history.flag == 1)
 			ft_putstr_fd("\a", 1);
-		if (g_data.history.hist_end->prev && g_data.history.flag == 1)
-			g_data.history.hist_end = g_data.history.hist_end->prev;
-		g_data.history.flag = 1;
-		ft_putstr_fd(g_data.history.hist_end->content, 1);
-		g_data.history.hist_print = ft_strlen(g_data.history.hist_end->content);
-		if (g_data.history.hist_buf)
-			free(g_data.history.hist_buf);
-		g_data.history.hist_buf = ft_strdup(g_data.history.hist_end->content);
+		if (g_main.history.hist_end->prev && g_main.history.flag == 1)
+			g_main.history.hist_end = g_main.history.hist_end->prev;
+		g_main.history.flag = 1;
+		ft_putstr_fd(g_main.history.hist_end->content, 1);
+		g_main.history.hist_print = ft_strlen(g_main.history.hist_end->content);
+		if (g_main.history.hist_buf)
+			free(g_main.history.hist_buf);
+		g_main.history.hist_buf = ft_strdup(g_main.history.hist_end->content);
 	}
 }
 
@@ -1937,42 +1932,42 @@ void	kdown(void)
 {
 	tputs(tgetstr("rc", 0), 1, output_func);
 	tputs(tgetstr("cd", 0), 1, output_func);
-	if (g_data.history.hist_end && g_data.history.hist_end->next)
+	if (g_main.history.hist_end && g_main.history.hist_end->next)
 	{
-		g_data.history.hist_end = g_data.history.hist_end->next;
-		ft_putstr_fd(g_data.history.hist_end->content, 1);
-		g_data.history.hist_print = ft_strlen(g_data.history.hist_end->content);
-		if (g_data.history.hist_buf)
-			free(g_data.history.hist_buf);
-		g_data.history.hist_buf = ft_strdup(g_data.history.hist_end->content);
+		g_main.history.hist_end = g_main.history.hist_end->next;
+		ft_putstr_fd(g_main.history.hist_end->content, 1);
+		g_main.history.hist_print = ft_strlen(g_main.history.hist_end->content);
+		if (g_main.history.hist_buf)
+			free(g_main.history.hist_buf);
+		g_main.history.hist_buf = ft_strdup(g_main.history.hist_end->content);
 	}
 	else
 	{
-		if (g_data.history.flag == 0)
+		if (g_main.history.flag == 0)
 			ft_putstr_fd("\a", 1);
-		g_data.history.flag = 0;
-		ft_putstr_fd(g_data.history.command, 1);
+		g_main.history.flag = 0;
+		ft_putstr_fd(g_main.history.command, 1);
 	}
 }
 
 void	kback(void)
 {
-	if (g_data.history.command_print <= 0 && g_data.history.hist_print <= 0)
+	if (g_main.history.command_print <= 0 && g_main.history.hist_print <= 0)
 		ft_putstr_fd("\a", 1);
-	if (g_data.history.command_print > 0 && g_data.history.flag == 0)
+	if (g_main.history.command_print > 0 && g_main.history.flag == 0)
 	{
 		tputs(tgetstr("le", 0), 1, output_func);
 		tputs(tgetstr("dc", 0), 1, output_func);
-		g_data.history.command_print--;
-		g_data.history.command = str_end(g_data.history.command);
+		g_main.history.command_print--;
+		g_main.history.command = str_end(g_main.history.command);
 	}
-	if (g_data.history.hist_print > 0 && g_data.history.flag == 1)
+	if (g_main.history.hist_print > 0 && g_main.history.flag == 1)
 	{
 		tputs(tgetstr("le", 0), 1, output_func);
 		tputs(tgetstr("dc", 0), 1, output_func);
-		g_data.history.hist_print--;
-		g_data.history.hist_end->content
-			= str_end(g_data.history.hist_end->content);
+		g_main.history.hist_print--;
+		g_main.history.hist_end->content
+			= str_end(g_main.history.hist_end->content);
 	}
 }
 
@@ -2096,7 +2091,7 @@ void	reset_term(void)
 {
 	char			*term;
 
-	tcsetattr(0, 0, &g_data.termset);
+	tcsetattr(0, 0, &g_main.termset);
 	tgetent(0, term = env_get_var("TERM"));
 	free(term);
 }
@@ -2112,67 +2107,72 @@ term/signals.c
 
 void	main_input_re(void)
 {
-	g_data.history.flag = 0;
-	if (g_data.history.command != NULL)
-		free(g_data.history.command);
-	g_data.history.command = NULL;
-	g_data.history.command_print = 0;
+	g_main.history.flag = 0;
+	if (g_main.history.command != NULL)
+		free(g_main.history.command);
+	g_main.history.command = NULL;
+	g_main.history.command_print = 0;
 	dlist_end();
 }
 
 void	hist_input_re(void)
 {
-	free(g_data.history.hist_end->content);
-	g_data.history.hist_end->content = ft_strdup(g_data.history.hist_buf);
+	free(g_main.history.hist_end->content);
+	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);
 }
 
 void	sig_int(int code)
 {
 	(void)code;
-	if (g_data.sig_pid == 0)
+	write(1, "\n", 1);
+	if (g_main.sig_pid == 0)
 	{
-		write(1, "\n", 1);
 		print_message();
-		g_data.status = 1;
-		if (g_data.history.flag == 1)
+		g_main.status = 1;
+		if (g_main.history.flag == 1)
 			hist_input_re();
 		main_input_re();
 	}
-	if (g_data.sig_pid > 0)
-		g_data.status = 130;
+	if (g_main.sig_pid > 0)
+		g_main.status = 130;
 }
 
 void	sig_quit(int code)
 {
 	(void)code;
-	if (g_data.sig_pid == 0)
-		ft_putstr_fd("\a", 1);
-	if (g_data.sig_pid > 0)
-		g_data.status = 131;
+	if (g_main.sig_pid != 0)
+	{
+		if (ft_strcmp(g_main.history.command, "read") != 0)
+		{
+			write(1, "Quit: ", 6);
+			ft_putnbr_fd(code, 1);
+			write(1, "\n", 1);
+		}
+		g_main.status = 131;
+	}
 }
 
 void	set_sig(void)
 {
-	signal(SIGINT, sig_int);
 	signal(SIGQUIT, sig_quit);
+	signal(SIGINT, sig_int);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	g_data.status = 0;
-	g_data.sig_pid = 0;
+	g_main.status = 0;
+	g_main.sig_pid = 0;
 	set_sig();
-	tcgetattr(0, &g_data.termset);
+	tcgetattr(0, &g_main.termset);
 	setup_term();
 	tputs(tgetstr("cl", 0), 1, output_func);
-	ft_putstr_fd("\033[1;32mWELCOME TO SHELL\n\033[0m", 1);
 	env_get(envp);
 	shlvl_set();
 	hist_create();
 	input();
-	dlist_free(g_data.history.hist_start);
-	close(g_data.history.hist_fd);
-	env_free(g_data.env);
+	dlist_free(g_main.history.hist_start);
+	close(g_main.history.hist_fd);
+	env_free(g_main.env);
 }

@@ -80,6 +80,5 @@ t_list				*ft_lstfind(t_list *begin_list, void *data_ref,
 char				*ft_strnjoin(char *s1, char *s2, int n);
 int					arr_len(void **array);
 char				**ft_realloc_arr(char **arr, size_t old_len, char *new_str);
-char				**arr_cpy(char **array);
 
 #endif

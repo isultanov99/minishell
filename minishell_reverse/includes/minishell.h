@@ -77,7 +77,7 @@ typedef struct s_data
 	int				sig_pid;
 }					t_data;
 
-t_data	g_data;
+t_data	g_main;
 
 /*
 **	env_exp
