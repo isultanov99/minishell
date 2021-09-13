@@ -132,11 +132,11 @@ void	reset_term(void);
 */
 
 int		ft_echo(t_cmd *cmd);
-int		cd(t_cmd *cmd);
+int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd);
-int		env(t_cmd *cmd);
+int		ft_env(t_cmd *cmd);
 int		ft_exit(t_cmd *cmd);
 void	export_print(int fd);
 int		var_valid(char *var);
@@ -164,6 +164,13 @@ int		double_left(char **line);
 void	add_pipe(t_cmd *cmd, char **line);
 void	link_pipes(t_cmd *start);
 void	close_pipes(t_cmd *cmd);
+
+/*
+** signals
+*/
+
+void	main_input_re(void);
+void	hist_input_re(void);
 
 /*
 ** commands utils
