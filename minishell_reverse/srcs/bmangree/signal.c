@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/13 17:04:13 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/14 20:34:51 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,19 @@ void	set_sig(void)
 {
 	signal(SIGQUIT, sig_quit);
 	signal(SIGINT, sig_int);
+}
+
+void	sigint_handler(int code)
+{
+	pid_t	id;
+
+	(void)code;
+	ft_putstr_fd("\n", 1);
+	id = getpid();
+	kill(id, SIGKILL);
+}
+
+void	sigquit_handler(int code)
+{
+	(void)code;
 }

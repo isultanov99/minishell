@@ -28,7 +28,9 @@ SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
 			bmangree/signal.c \
 			cpablo/cd.c \
 			cpablo/echo.c \
-			cpablo/env.c
+			cpablo/env.c \
+			ft_exit.c \
+			ft_input.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 

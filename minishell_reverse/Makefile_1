@@ -48,7 +48,7 @@ SRC			= main.c \
 			term/input_1.c \
 			term/input_2.c \
 			term/keys.c \
-			history/double_list.c \
+			history/dlist.c \
 			history/hist.c \
 			envp/env_1.c \
 			envp/env_2.c \

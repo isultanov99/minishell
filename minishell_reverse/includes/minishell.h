@@ -148,7 +148,7 @@ void	var_print_error(int fd, char *var);
 void	skip_spaces(char **line);
 void	dollar(char **line, char **superline);
 void	single_quotes(char **line, char **superline, t_cmd *cmd);
-void	double_quotes(char **line, char **superline, t_cmd *cmd);
+void	dquotes(char **line, char **superline, t_cmd *cmd);
 void	simple_chr(char **line, char **superline);
 void	parse_chr(char **line, char **superline, t_cmd *cmd);
 t_cmd	*parse_str(t_cmd *cmd, char **line);
@@ -160,7 +160,7 @@ void	parse_cmd(char *line);
 ** redirects and pipes
 */
 void	add_redirect(t_cmd *cmd, char **line);
-int		double_left(char **line);
+int		dleft(char **line);
 void	add_pipe(t_cmd *cmd, char **line);
 void	link_pipes(t_cmd *start);
 void	close_pipes(t_cmd *cmd);
@@ -169,8 +169,12 @@ void	close_pipes(t_cmd *cmd);
 ** signals
 */
 
+void	hist_input(void);
+void	main_input(void);
 void	main_input_re(void);
 void	hist_input_re(void);
+void	sigquit_handler(int code);
+void	sigint_handler(int code);
 
 /*
 ** commands utils

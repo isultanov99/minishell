@@ -1,54 +1,6 @@
 #include "../includes/minishell.h"
 
 /*
-builtins/ft_exit.c
-*/
-int	exit_code_valid(char *code)
-{
-	int		i;
-
-	i = 0;
-	if (code[i] == '-' || code[i] == '+')
-		i = 1;
-	while (code[i])
-	{
-		if (ft_isdigit(code[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_exit(t_cmd *cmd)
-{
-	int		fd;
-	char	**params;
-	int		exit_code;
-
-	fd = cmd->output;
-	params = cmd->args;
-	if (params[1] == NULL)
-		ft_putstr_fd("exit\n", fd);
-	if (params[1] == NULL)
-		exit(0);
-	if (params[2])
-	{
-		ft_putstr_fd("exit\nexit: too many arguments\n", fd);
-		return (1);
-	}
-	if (exit_code_valid(params[1]))
-	{
-		ft_putstr_fd("exit\nexit: ", fd);
-		ft_putstr_fd(params[1], fd);
-		ft_putstr_fd(": numeric argument required\n", fd);
-		exit(255);
-	}
-	exit_code = ft_atoi(params[1]);
-	ft_putstr_fd("exit\n", fd);
-	exit(exit_code);
-}
-
-/*
 builtins/ft_export_print.c
 */
 /*
@@ -961,7 +913,7 @@ void	envp_arr_free(char **envp_arr)
 
 
 /*
-history/double_list.c
+history/dlist.c
 */
 t_dlist	*dlist_new(void *content)
 {
@@ -1202,7 +1154,7 @@ void	single_quotes(char **line, char **superline, t_cmd *cmd)
 		end_of_args(line, superline, cmd, 0);
 }
 
-void	double_quotes(char **line, char **superline, t_cmd *cmd)
+void	dquotes(char **line, char **superline, t_cmd *cmd)
 {
 	(*line)++;
 	while (**line && **line != '\"')
@@ -1257,7 +1209,7 @@ void	parse_chr(char **line, char **superline, t_cmd *cmd)
 	if (**line && **line == '\'')
 		single_quotes(line, superline, cmd);
 	else if (**line && **line == '\"')
-		double_quotes(line, superline, cmd);
+		dquotes(line, superline, cmd);
 	else if (**line && **line == '$')
 		dollar(line, superline);
 	else if (**line && **line != '|' && **line != '<'
@@ -1381,20 +1333,7 @@ void	add_pipe(t_cmd *cmd, char **line)
 /*
 pipes_and_redirects/heredoc_redirect.c
 */
-void	sigint_handler(int code)
-{
-	pid_t	id;
 
-	(void)code;
-	ft_putstr_fd("\n", 1);
-	id = getpid();
-	kill(id, SIGKILL);
-}
-
-void	sigquit_handler(int code)
-{
-	(void)code;
-}
 
 void	add_heredoc(char *end, int heredoc_fd)
 {
@@ -1440,7 +1379,7 @@ int	get_input(char *stop, int heredoc_fd)
 	return (status);
 }
 
-int	double_left(char **line)
+int	dleft(char **line)
 {
 	int		heredoc_fd;
 	char	*stop;
@@ -1468,7 +1407,7 @@ int	double_left(char **line)
 /*
 pipes_and_redirects/redirect.c
 */
-int	double_right(char **line)
+int	dright(char **line)
 {
 	char	*file;
 	int		fd;
@@ -1535,12 +1474,12 @@ void	add_redirect(t_cmd *cmd, char **line)
 {
 	if (!ft_strncmp(*line, "<<", 2))
 	{
-		cmd->input = double_left(line);
+		cmd->input = dleft(line);
 		if (cmd->input < 0)
 			cmd->stop = 1;
 	}
 	else if (!ft_strncmp(*line, ">>", 2))
-		cmd->output = double_right(line);
+		cmd->output = dright(line);
 	else if (**line == '<')
 		cmd->input = single_left(line);
 	else if (**line == '>')
@@ -1667,31 +1606,7 @@ void	input(void)
 /*
 term/input_2.c
 */
-void	main_input(void)
-{
-	g_main.history.command = str_end(g_main.history.command);
-	if (g_main.history.command[0] != '\0')
-	{
-		hist_add_str(g_main.history.command);
-		parse_cmd(g_main.history.command);
-	}
-	g_main.history.command_print = 0;
-	dlist_end();
-}
 
-void	hist_input(void)
-{
-	g_main.history.hist_end->content
-		= str_end(g_main.history.hist_end->content);
-	if (((char *)(g_main.history.hist_end->content))[0] != '\0')
-	{
-		hist_add_str(g_main.history.hist_end->content);
-		parse_cmd(g_main.history.hist_end->content);
-	}
-	free(g_main.history.hist_end->content);
-	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);
-	dlist_end();
-}
 
 /*
 **	обработка клавиши enter
