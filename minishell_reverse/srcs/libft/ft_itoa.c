@@ -3,61 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natali <natali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/08 19:19:12 by lkarliah          #+#    #+#             */
-/*   Updated: 2021/04/13 18:31:22 by natali           ###   ########.fr       */
+/*   Created: 2020/11/11 19:56:13 by cpablo            #+#    #+#             */
+/*   Updated: 2020/11/11 19:56:15 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_lenth(int n)
+static int		ft_get_value(int num)
 {
-	int	len;
-
-	len = 0;
-	if (n == -2147483648)
-		len = 11;
-	else if (n < 0)
-	{
-		len += 1;
-		n *= (-1);
-	}
-	if (n == 0)
-		len = 1;
-	while (n > 0)
-	{
-		n /= 10;
-		len++;
-	}
-	return (len - 1);
+	if (num < 0)
+		return (-num);
+	return (num);
 }
 
-char	*ft_itoa(int n)
+static int		ft_get_len(int num)
 {
-	char	*numb;
+	int len;
+
+	len = 0;
+	if (num <= 0)
+		len++;
+	while (num != 0)
+	{
+		len++;
+		num /= 10;
+	}
+	return (len);
+}
+
+char			*ft_itoa(int n)
+{
+	char	*dest;
 	int		len;
 
-	len = ft_lenth(n);
-	numb = malloc(len + 2);
-	numb[len + 1] = '\0';
-	if (n == -2147483648)
-	{
-		n /= 10;
-		numb[len--] = '8';
-	}
+	len = ft_get_len(n);
+	if (!(dest = malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	dest[len] = '\0';
 	if (n < 0)
+		dest[0] = '-';
+	else if (n == 0)
+		dest[0] = '0';
+	while (n != 0)
 	{
-		numb[0] = '-';
-		n *= (-1);
-	}
-	if (n == 0)
-		numb[0] = '0';
-	while (n > 0)
-	{
-		numb[len--] = n % 10 + '0';
+		len--;
+		dest[len] = ft_get_value(n % 10) + '0';
 		n /= 10;
 	}
-	return (numb);
+	return (dest);
 }

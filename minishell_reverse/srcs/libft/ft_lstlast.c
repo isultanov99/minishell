@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natali <natali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/09 19:43:43 by lkarliah          #+#    #+#             */
-/*   Updated: 2021/04/13 18:52:54 by natali           ###   ########.fr       */
+/*   Created: 2021/03/20 18:22:44 by cpablo            #+#    #+#             */
+/*   Updated: 2021/04/28 16:37:00 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_list	*ft_lstlast(t_list *lst)
 {
+	t_list	*tmp;
+
+	tmp = lst;
 	if (lst)
-	{
-		while (lst->next)
-			lst = lst->next;
-		return (lst);
-	}
-	return (NULL);
+		while (tmp->next)
+			tmp = tmp->next;
+	return (tmp);
 }

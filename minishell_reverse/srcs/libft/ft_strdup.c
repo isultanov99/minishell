@@ -3,36 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natali <natali@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/06 17:04:28 by lkarliah          #+#    #+#             */
-/*   Updated: 2021/07/22 12:53:45 by natali           ###   ########.fr       */
+/*   Created: 2020/11/11 19:54:32 by cpablo            #+#    #+#             */
+/*   Updated: 2020/11/11 19:54:33 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strcpy(char *dest, const char *src)
+char	*ft_strdup(const char *str)
 {
-	while (*src != '\0')
-	{
-		*dest++ = *src++;
-	}
-	*dest = '\0';
-	return (dest);
-}
+	char	*result;
+	size_t	len;
+	int		i;
 
-char	*ft_strdup(const char *s1)
-{
-	char	*copy;
-
-	if (s1)
+	len = ft_strlen(str) + 1;
+	result = malloc(len);
+	i = 0;
+	if (!result)
+		return (NULL);
+	while (str[i] != '\0')
 	{
-		copy = malloc(ft_strlen(s1) + 1);
-		if (copy == NULL)
-			return (NULL);
-		ft_strcpy(copy, s1);
-		return (copy);
+		result[i] = str[i];
+		++i;
 	}
-	return (NULL);
+	result[i] = '\0';
+	return (result);
 }
