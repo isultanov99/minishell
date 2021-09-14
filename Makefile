@@ -1,27 +1,68 @@
-NAME =		minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/09/14 13:30:16 by cpablo            #+#    #+#              #
+#    Updated: 2021/09/14 13:30:16 by cpablo           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-FLAGS =		-g3 -fsanitize=address -Wall -Wextra -Werror
+NAME    	= minishell
 
-SRC =		main.c
+CFLAGS		= -lreadline -Wall -Wextra -Werror
 
-SRCS_DIR =	./srcs/
+LIBFT_FLAGS = -L./srcs/libft -lft
 
-SRCS =		$(addprefix $(SRCS_DIR), $(SRC))
+TERMCAP		= -ltermcap
 
-OBJS =		$(SRCS:c=o)
+SRCS_DIR	= srcs/
+
+HEADER_DIR	= includes
+
+SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
+			main.c \
+			minishell_reverse.c \
+			bmangree/signal.c \
+			cpablo/cd.c \
+			cpablo/echo.c \
+			cpablo/env.c \
+			ft_exit.c \
+			ft_input.c
+
+SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
+
+OBJS		= $(SRCS:.c=.o)
+
+DEPENDS 	= $(SRCS:.c=.d)
+
+INC			= includes/
+
+LIB_DIR 	= libft/
+
+RM			= rm -f
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS) includes/minishell.h
-			$(MAKE) -C libft
-			gcc $(FLAGS) $(OBJS) -I./includes/ -L./libft/ -lft -lreadline -o minishell
+$(NAME):	$(OBJS)
+			@make -C ./srcs/libft
+			gcc $(CFLAGS) -I $(INC) $(LIBFT_FLAGS) $(TERMCAP) $^ -o $(NAME)
+
+%.o:		%.c Makefile
+			@gcc -I $(INC) -MMD -MP -c $< -o $@
+
+bonus:		all
 
 clean:
-			$(MAKE) clean -C ./libft
-			rm -rf $(OBJS)
+			@make clean -C ./srcs/libft
+			@$(RM) $(OBJS) $(DEPENDS)
 
 fclean:		clean
-			rm -rf libft/libft.a
-			rm -rf $(NAME)
+			@make fclean -C ./srcs/libft
+			@$(RM) $(NAME)
 
 re:			fclean all
+
+.PHONY:		all clean fclean
