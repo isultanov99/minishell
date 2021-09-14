@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lkarliah <lkarliah@student.42.fr>          +#+  +:+       +#+         #
+#    By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/04/26 19:26:13 by natali            #+#    #+#              #
-#    Updated: 2021/08/07 21:14:47 by lkarliah         ###   ########.fr        #
+#    Created: 2021/09/14 13:30:16 by cpablo            #+#    #+#              #
+#    Updated: 2021/09/14 13:30:16 by cpablo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME    	= minishell
 
 CFLAGS		= -lreadline -Wall -Wextra -Werror
 
-LIBFT_FLAGS = -L./libft -lft
+LIBFT_FLAGS = -L./srcs/libft -lft
 
 TERMCAP		= -ltermcap
 
@@ -22,7 +22,13 @@ SRCS_DIR	= srcs/
 
 HEADER_DIR	= includes
 
-SRC			= minishell_reverse.c \
+SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
+			main.c \
+			minishell_reverse.c \
+			bmangree/signal.c \
+			cpablo/cd.c \
+			cpablo/echo.c \
+			cpablo/env.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 
@@ -39,7 +45,7 @@ RM			= rm -f
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-			@make -C ./libft
+			@make -C ./srcs/libft
 			gcc $(CFLAGS) -I $(INC) $(LIBFT_FLAGS) $(TERMCAP) $^ -o $(NAME)
 
 %.o:		%.c Makefile
@@ -48,11 +54,11 @@ $(NAME):	$(OBJS)
 bonus:		all
 
 clean:
-			@make clean -C ./libft
+			@make clean -C ./srcs/libft
 			@$(RM) $(OBJS) $(DEPENDS)
 
 fclean:		clean
-			@make fclean -C ./libft
+			@make fclean -C ./srcs/libft
 			@$(RM) $(NAME)
 
 re:			fclean all
