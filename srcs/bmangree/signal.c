@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/14 20:34:51 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/15 13:09:21 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	sig_int(int code)
 		print_message();
 		g_main.status = 1;
 		if (g_main.history.flag == 1)
-			hist_input_re();
-		main_input_re();
+			hist_int();
+		main_int();
 	}
 	if (g_main.sig_pid > 0)
 		g_main.status = 130;

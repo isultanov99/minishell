@@ -1855,7 +1855,7 @@ term/signals.c
 ** >0 - child
 */
 
-void	main_input_re(void)
+void	main_int(void)
 {
 	g_main.history.flag = 0;
 	if (g_main.history.command != NULL)
@@ -1865,7 +1865,7 @@ void	main_input_re(void)
 	dlist_end();
 }
 
-void	hist_input_re(void)
+void	hist_int(void)
 {
 	free(g_main.history.hist_end->content);
 	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);

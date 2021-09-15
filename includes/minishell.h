@@ -171,8 +171,8 @@ void	close_pipes(t_cmd *cmd);
 
 void	hist_input(void);
 void	main_input(void);
-void	main_input_re(void);
-void	hist_input_re(void);
+void	main_int(void);
+void	hist_int(void);
 void	sigquit_handler(int code);
 void	sigint_handler(int code);
 
