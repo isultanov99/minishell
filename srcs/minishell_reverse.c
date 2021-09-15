@@ -417,20 +417,20 @@ int	choose_builtin(t_cmd *cmd)
 		return (0);
 	if (cmd->file_error)
 		return (1);
-	if (ft_strcmp("echo", cmd->args[0]) == 0)
-		g_main.status = ft_echo(cmd);
-	else if (ft_strcmp("cd", cmd->args[0]) == 0)
+	if (ft_strcmp("cd", cmd->args[0]) == 0)
 		g_main.status = ft_cd(cmd);
-	else if (ft_strcmp("pwd", cmd->args[0]) == 0)
-		g_main.status = ft_pwd(cmd);
-	else if (ft_strcmp("export", cmd->args[0]) == 0)
-		g_main.status = ft_export(cmd);
-	else if (ft_strcmp("unset", cmd->args[0]) == 0)
-		g_main.status = ft_unset(cmd);
+	else if (ft_strcmp("echo", cmd->args[0]) == 0)
+		g_main.status = ft_echo(cmd);
 	else if (ft_strcmp("env", cmd->args[0]) == 0)
 		g_main.status = ft_env(cmd);
 	else if (ft_strcmp("exit", cmd->args[0]) == 0)
 		g_main.status = ft_exit(cmd);
+	else if (ft_strcmp("export", cmd->args[0]) == 0)
+		g_main.status = ft_export(cmd);
+	else if (ft_strcmp("pwd", cmd->args[0]) == 0)
+		g_main.status = ft_pwd(cmd);
+	else if (ft_strcmp("unset", cmd->args[0]) == 0)
+		g_main.status = ft_unset(cmd);
 	else
 		return (0);
 	return (1);
@@ -483,7 +483,7 @@ void	scmd(t_cmd *cmd)
 	}
 }
 
-void	multi_cmd(t_cmd *cmd)
+void	mcmd(t_cmd *cmd)
 {
 	int		status;
 
@@ -516,7 +516,7 @@ void	exec_cmd(t_cmd *cmd)
 		if (!cmd->next)
 			scmd(cmd);
 		else
-			multi_cmd(cmd);
+			mcmd(cmd);
 		setup_term();
 	}
 	free_cmd(cmd);
