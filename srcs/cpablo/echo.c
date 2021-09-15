@@ -21,7 +21,7 @@ int	echo_aux(char *str)
 
 int	check_params(char *param, int fd)
 {
-	if (param == NULL)
+	if (param == 0)
 	{
 		write(fd, "\n", 1);
 		return (1);

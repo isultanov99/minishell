@@ -44,7 +44,7 @@ void	str_put(char *s, int fd)
 	int		i;
 	int		flag;
 
-	if (s == NULL)
+	if (s == 0)
 		return ;
 	i = 0;
 	flag = 0;
@@ -170,7 +170,7 @@ int	ft_export(t_cmd *cmd)
 	fd = cmd->output;
 	params = cmd->args;
 	i = 1;
-	if (params[i] == NULL)
+	if (params[i] == 0)
 	{
 		export_print(fd);
 		return (0);
@@ -193,7 +193,7 @@ int	ft_pwd(t_cmd *cmd)
 	fd = cmd->output;
 	params = cmd->args;
 	pwd_path = getcwd(NULL, 0);
-	if (pwd_path == NULL)
+	if (pwd_path == 0)
 		return (1);
 	ft_putstr_fd(pwd_path, fd);
 	write(fd, "\n", 1);
@@ -279,7 +279,7 @@ void	shlvl_set(void)
 	int		is_changed;
 
 	shlvl = env_get_var("SHLVL");
-	if (shlvl == NULL)
+	if (shlvl == 0)
 	{
 		is_changed = env_change_var("SHLVL", "1");
 		if (is_changed == 1)
@@ -400,7 +400,7 @@ void	fork_cmd_routine(t_cmd *cmd)
 	if (g_main.status < 0)
 	{
 		if (errno == ENOEXEC)
-			exit(EXIT_SUCCESS);
+			exit(0);
 		else if (errno == EACCES)
 		{
 			perror(cmd->args[0]);
@@ -422,7 +422,7 @@ void	scmd(t_cmd *cmd)
 		if (g_main.sig_pid == 0)
 			fork_cmd_routine(cmd);
 		else if (g_main.sig_pid < 0)
-			exit(EXIT_FAILURE);
+			exit(1);
 		wait(&status);
 		if (g_main.status != 130 && g_main.status != 131)
 			g_main.status = WEXITSTATUS(status);
@@ -445,7 +445,7 @@ void	mcmd(t_cmd *cmd)
 				exit(g_main.status);
 		}
 		else if (g_main.sig_pid < 0)
-			exit(EXIT_FAILURE);
+			exit(1);
 		if (!cmd->next)
 			close_pipes(cmd);
 		cmd = cmd->next;
@@ -650,10 +650,10 @@ int	env_delete_var(char *var)
 
 	var_size = ft_strlen(var);
 	str = env_get_str(var, var_size);
-	if (str == NULL)
+	if (str == 0)
 		return (1);
 	pre = env_get_pre_str(var, var_size);
-	if (pre == NULL)
+	if (pre == 0)
 		g_main.env = str->next;
 	else
 		pre->next = str->next;
@@ -667,7 +667,7 @@ static char	*env_new_str(char *var, char *value)
 	char	*new_str;
 	char	*mind;
 
-	if (value == NULL)
+	if (value == 0)
 		return (ft_strdup(var));
 	new_str = ft_strjoin(var, "=");
 	mind = new_str;
@@ -692,9 +692,9 @@ int	env_change_var(char *var, char *value)
 
 	var_size = ft_strlen(var);
 	list = env_get_str(var, var_size);
-	if (list == NULL)
+	if (list == 0)
 		return (1);
-	if (value == NULL)
+	if (value == 0)
 		return (0);
 	new_str = env_new_str(var, value);
 	free(list->content);
@@ -715,7 +715,7 @@ t_list	*env_get_str(char *var, int var_size)
 			break ;
 		cp = cp->next;
 	}
-	if (cp == NULL)
+	if (cp == 0)
 		return (NULL);
 	return (cp);
 }
@@ -744,7 +744,7 @@ char	*env_get_var(char *var)
 
 	var_size = ft_strlen(var);
 	list = env_get_str(var, var_size);
-	if (list == NULL)
+	if (list == 0)
 		return (NULL);
 	var_str = list->content;
 	i = 0;
@@ -796,7 +796,7 @@ t_dlist	*dlist_new(void *content)
 	t_dlist	*new;
 
 	new = (t_dlist *)malloc(sizeof(t_dlist));
-	if (new == NULL)
+	if (new == 0)
 		return (NULL);
 	new->content = content;
 	new->next = NULL;
@@ -808,9 +808,9 @@ void	dlist_add_back(t_dlist **dlist, t_dlist *new)
 {
 	t_dlist	*begin;
 
-	if (dlist == NULL || new == NULL)
+	if (dlist == 0 || new == 0)
 		return ;
-	if (*dlist == NULL)
+	if (*dlist == 0)
 	{
 		new->next = NULL;
 		new->prev = NULL;
@@ -855,7 +855,7 @@ void	dlist_end(void)
 	g_main.history.hist_end = g_main.history.hist_start;
 	while (g_main.history.hist_end)
 	{
-		if (g_main.history.hist_end->next == NULL)
+		if (g_main.history.hist_end->next == 0)
 			break ;
 		g_main.history.hist_end = g_main.history.hist_end->next;
 	}
@@ -942,7 +942,7 @@ void	tolower_builtin(t_cmd *cmd)
 	}
 }
 
-void	dollar_status(char **line, char **superline)
+void	dol_sign_status(char **line, char **superline)
 {
 	char	*tmp_status;
 
@@ -953,7 +953,7 @@ void	dollar_status(char **line, char **superline)
 	g_main.status = 0;
 }
 
-void	dollar_get_value(char **line, char **superline, int len)
+void	dol_sign_get_value(char **line, char **superline, int len)
 {
 	char	*key;
 	char	*value;
@@ -969,7 +969,7 @@ void	dollar_get_value(char **line, char **superline, int len)
 	*line += len;
 }
 
-void	dollar(char **line, char **superline)
+void	dol_sign(char **line, char **superline)
 {
 	int		i;
 
@@ -977,7 +977,7 @@ void	dollar(char **line, char **superline)
 	(*line)++;
 	if (**line == '?')
 	{
-		dollar_status(line, superline);
+		dol_sign_status(line, superline);
 		return ;
 	}
 	else if (ft_isdigit(**line))
@@ -993,7 +993,7 @@ void	dollar(char **line, char **superline)
 		*superline = ft_strnjoin(*superline, "$", 1);
 		return ;
 	}
-	dollar_get_value(line, superline, i);
+	dol_sign_get_value(line, superline, i);
 }
 
 void	skip_spaces(char **line)
@@ -1020,7 +1020,7 @@ void	dquotes(char **line, char **superline, t_cmd *cmd)
 	while (**line && **line != '\"')
 	{
 		if (**line == '$')
-			dollar(line, superline);
+			dol_sign(line, superline);
 		else
 		{
 			*superline = ft_strnjoin(*superline, *line, 1);
@@ -1068,7 +1068,7 @@ void	parse_chr(char **line, char **superline, t_cmd *cmd)
 	else if (**line && **line == '\"')
 		dquotes(line, superline, cmd);
 	else if (**line && **line == '$')
-		dollar(line, superline);
+		dol_sign(line, superline);
 	else if (**line && **line != '|' && **line != '<'
 		&& **line != '>' && **line != ' ')
 		simple_chr(line, superline);
@@ -1178,7 +1178,7 @@ void	add_pipe(t_cmd *cmd, char **line)
 	if ((pipe(cmd->pipe_fd)) == -1)
 	{
 		perror("Pipe error");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 }
 
@@ -1190,7 +1190,7 @@ void	add_heredoc(char *end, int heredoc_fd)
 	while (1)
 	{
 		input = readline("> ");
-		if (input == NULL)
+		if (input == 0)
 		{
 			ft_putstr_fd("\b\b", 2);
 			exit(0);
@@ -1218,7 +1218,7 @@ int	get_input(char *stop, int heredoc_fd)
 		add_heredoc(stop, heredoc_fd);
 	}
 	else if (g_main.sig_pid < 0)
-		exit(EXIT_FAILURE);
+		exit(1);
 	wait(&status);
 	g_main.sig_pid = 0;
 	close(heredoc_fd);
@@ -1246,7 +1246,7 @@ char	*str_end(char *str)
 	int		str_size;
 	int		i;
 
-	if (str == NULL)
+	if (str == 0)
 		return (ft_strdup(""));
 	str_size = ft_strlen(str);
 	new_str = (char *)malloc(sizeof(char) * str_size);
@@ -1266,7 +1266,7 @@ char	*get_command(char *str, char *add)
 	char	*command;
 
 	command = ft_strjoin(str, add);
-	if (command == NULL)
+	if (command == 0)
 		command = ft_strdup(add);
 	else
 		free(str);
@@ -1356,13 +1356,13 @@ void	control_characters(char *str)
 
 void	kup(void)
 {
-	if (g_main.history.hist_end == NULL)
+	if (g_main.history.hist_end == 0)
 		ft_putstr_fd("\a", 1);
 	if (g_main.history.hist_end)
 	{
 		tputs(tgetstr("rc", 0), 1, output_func);
 		tputs(tgetstr("cd", 0), 1, output_func);
-		if (g_main.history.hist_end->prev == NULL && g_main.history.flag == 1)
+		if (g_main.history.hist_end->prev == 0 && g_main.history.flag == 1)
 			ft_putstr_fd("\a", 1);
 		if (g_main.history.hist_end->prev && g_main.history.flag == 1)
 			g_main.history.hist_end = g_main.history.hist_end->prev;

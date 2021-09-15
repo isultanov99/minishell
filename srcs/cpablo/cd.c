@@ -14,7 +14,7 @@ int	no_arg(int fd, char *pwd_path)
 	char	*home_path;
 
 	home_path = getenv("HOME");
-	if (home_path == NULL)
+	if (home_path == 0)
 	{
 		ft_putstr_fd("cd: HOME not set\n", fd);
 		return (1);

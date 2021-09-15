@@ -21,9 +21,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define EXIT_SUCCESS 0
-# define EXIT_FAILURE 1
-
 typedef struct s_dlist
 {
 	void			*content;
@@ -105,7 +102,7 @@ void	export_print(int fd);
 int		var_valid(char *var);
 void	var_print_error(int fd, char *var);
 void	skip_spaces(char **line);
-void	dollar(char **line, char **superline);
+void	dol_sign(char **line, char **superline);
 void	squotes(char **line, char **superline, t_cmd *cmd);
 void	dquotes(char **line, char **superline, t_cmd *cmd);
 void	simple_chr(char **line, char **superline);

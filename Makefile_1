@@ -41,7 +41,7 @@ SRC			= main.c \
 			parser/parser.c \
 			parser/parse_utils.c \
 			parser/parse_builtins.c \
-			parser/parse_dollar.c \
+			parser/parse_dol_sign.c \
 			term/setup_term.c \
 			term/signals.c \
 			term/prompt.c \

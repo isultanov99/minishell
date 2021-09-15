@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 18:16:16 by cpablo            #+#    #+#             */
-/*   Updated: 2021/04/28 16:37:03 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/15 19:38:26 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 	if (lst)
 	{
-		if (*lst == NULL)
+		if (*lst == 0)
 			*lst = new;
 		else
 		{

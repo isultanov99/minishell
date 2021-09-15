@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 20:10:07 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/14 20:15:32 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/15 19:38:26 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_exit(t_cmd *cmd)
 
 	fd = cmd->output;
 	params = cmd->args;
-	if (params[1] == NULL)
+	if (params[1] == 0)
 		ft_putstr_fd("exit\n", fd);
-	if (params[1] == NULL)
+	if (params[1] == 0)
 		exit(0);
 	if (params[2])
 	{
