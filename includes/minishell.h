@@ -147,7 +147,7 @@ void	var_print_error(int fd, char *var);
 */
 void	skip_spaces(char **line);
 void	dollar(char **line, char **superline);
-void	single_quotes(char **line, char **superline, t_cmd *cmd);
+void	squotes(char **line, char **superline, t_cmd *cmd);
 void	dquotes(char **line, char **superline, t_cmd *cmd);
 void	simple_chr(char **line, char **superline);
 void	parse_chr(char **line, char **superline, t_cmd *cmd);

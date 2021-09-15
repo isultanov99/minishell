@@ -465,7 +465,7 @@ void	fork_cmd_routine(t_cmd *cmd)
 	exit (g_main.status);
 }
 
-void	single_cmd(t_cmd *cmd)
+void	scmd(t_cmd *cmd)
 {
 	int		status;
 
@@ -514,7 +514,7 @@ void	exec_cmd(t_cmd *cmd)
 	{
 		reset_term();
 		if (!cmd->next)
-			single_cmd(cmd);
+			scmd(cmd);
 		else
 			multi_cmd(cmd);
 		setup_term();
@@ -1145,7 +1145,7 @@ void	skip_spaces(char **line)
 	}
 }
 
-void	single_quotes(char **line, char **superline, t_cmd *cmd)
+void	squotes(char **line, char **superline, t_cmd *cmd)
 {
 	*superline = ft_strnjoin(*superline, *line + 1,
 			ft_strlen_chr(*line + 1, '\''));
@@ -1207,7 +1207,7 @@ void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
 void	parse_chr(char **line, char **superline, t_cmd *cmd)
 {
 	if (**line && **line == '\'')
-		single_quotes(line, superline, cmd);
+		squotes(line, superline, cmd);
 	else if (**line && **line == '\"')
 		dquotes(line, superline, cmd);
 	else if (**line && **line == '$')
@@ -1428,7 +1428,7 @@ int	dright(char **line)
 	return (fd);
 }
 
-int	single_left(char **line)
+int	sleft(char **line)
 {
 	char	*file;
 	int		fd;
@@ -1449,7 +1449,7 @@ int	single_left(char **line)
 	return (fd);
 }
 
-int	single_right(char **line)
+int	sright(char **line)
 {
 	char	*file;
 	int		fd;
@@ -1480,10 +1480,10 @@ void	add_redirect(t_cmd *cmd, char **line)
 	}
 	else if (!ft_strncmp(*line, ">>", 2))
 		cmd->output = dright(line);
-	else if (**line == '<')
-		cmd->input = single_left(line);
 	else if (**line == '>')
-		cmd->output = single_right(line);
+		cmd->output = sright(line);
+	else if (**line == '<')
+		cmd->input = sleft(line);
 	if (cmd->input < 0 || cmd->output < 0)
 		cmd->file_error = 1;
 }
