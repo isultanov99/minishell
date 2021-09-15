@@ -43,14 +43,6 @@ typedef struct s_history
 	int				command_print;
 }					t_history;
 
-/*
-**	args содержит:
-**	1. первым элементом название команды
-**	2. опции
-**	3. аргументы
-**	4. последним элементом NULL
-*/
-
 typedef struct s_cmd
 {
 	char			**args;
@@ -64,10 +56,6 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }t_cmd;
 
-/*
-**	главная структура
-*/
-
 typedef struct s_data
 {
 	struct termios	termset;
@@ -76,15 +64,10 @@ typedef struct s_data
 	int				status;
 	int				sig_pid;
 }					t_data;
-
 t_data	g_main;
 
-/*
-**	env_exp
-*/
-
 void	env_get(char **envp);
-void	env_free(t_list *list);
+void	list_free(t_list *list);
 void	env_print(int fd);
 void	env_add_new_var(char *var, char *value);
 int		env_change_var(char *var, char *value);
@@ -94,21 +77,11 @@ t_list	*env_get_str(char *var, int var_size);
 void	shlvl_set(void);
 char	**envp_arr(void);
 void	envp_arr_free(char **envp_arr);
-
-/*
-**	dlist
-*/
-
 t_dlist	*dlist_new(void *content);
 void	dlist_add_back(t_dlist **dlist, t_dlist *new);
 void	dlist_print(t_dlist *dlist);
 void	dlist_free(t_dlist *dlist);
 void	dlist_end(void);
-
-/*
-**	input, keys, hist
-*/
-
 void	print_message(void);
 void	input(void);
 char	*str_end(char *str);
@@ -118,19 +91,9 @@ void	hist_add_str(char *str);
 void	str_to_exec(char *str);
 void	set_sig(void);
 void	control_characters(char *str);
-
-/*
-**	setup termcaps
-*/
-
 int		output_func(int c);
 void	setup_term(void);
 void	reset_term(void);
-
-/*
-**	buildins
-*/
-
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
@@ -141,10 +104,6 @@ int		ft_exit(t_cmd *cmd);
 void	export_print(int fd);
 int		var_valid(char *var);
 void	var_print_error(int fd, char *var);
-
-/*
-**	parser
-*/
 void	skip_spaces(char **line);
 void	dollar(char **line, char **superline);
 void	squotes(char **line, char **superline, t_cmd *cmd);
@@ -155,30 +114,17 @@ t_cmd	*parse_str(t_cmd *cmd, char **line);
 void	end_of_args(char **line, char **superline, t_cmd *cmd, int code);
 void	tolower_builtin(t_cmd *cmd);
 void	parse_cmd(char *line);
-
-/*
-** redirects and pipes
-*/
 void	add_redirect(t_cmd *cmd, char **line);
 int		get_input(char *stop, int heredoc_fd);
 void	add_pipe(t_cmd *cmd, char **line);
 void	link_pipes(t_cmd *start);
 void	close_pipes(t_cmd *cmd);
-
-/*
-** signals
-*/
-
 void	hist_input(void);
 void	main_input(void);
 void	main_int(void);
 void	hist_int(void);
 void	sigquit_handler(int code);
 void	sigint_handler(int code);
-
-/*
-** commands utils
-*/
 void	put_back_cmd(t_cmd **start, t_cmd *new);
 t_cmd	*cmd_init(void);
 int		check_cmd(t_cmd *start);

@@ -16,5 +16,5 @@ int	main(int argc, char **argv, char **envp)
 	input();
 	dlist_free(g_main.history.hist_start);
 	close(g_main.history.hist_fd);
-	env_free(g_main.env);
+	list_free(g_main.env);
 }

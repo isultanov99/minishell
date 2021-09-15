@@ -1,13 +1,5 @@
 #include "../includes/minishell.h"
 
-/*
-builtins/ft_export_print.c
-*/
-/*
-**	сортирует переменные экспорта в
-**	алфавитном порядке по возрастанию
-*/
-
 void	exp_sort(t_list *list)
 {
 	t_list	*i;
@@ -31,11 +23,6 @@ void	exp_sort(t_list *list)
 		i = i->next;
 	}
 }
-
-/*
-**	создаёт односвязный список - дубликат,
-**	состоящий из переменных окружения
-*/
 
 t_list	*env_dup(void)
 {
@@ -75,10 +62,6 @@ void	str_put(char *s, int fd)
 		write(fd, "\"", 1);
 }
 
-/*
-**	выводит переменные окружения через export без аргументов
-*/
-
 void	export_print(int fd)
 {
 	t_list	*list;
@@ -94,12 +77,9 @@ void	export_print(int fd)
 		write(fd, "\n", 1);
 		list = list->next;
 	}
-	env_free(mind);
+	list_free(mind);
 }
 
-/*
-builtins/ft_export.c
-*/
 char	*export_var(char *str)
 {
 	char	*var;
@@ -204,9 +184,6 @@ int	ft_export(t_cmd *cmd)
 	return (0);
 }
 
-/*
-builtins/ft_pwd.c
-*/
 int	ft_pwd(t_cmd *cmd)
 {
 	int		fd;
@@ -224,23 +201,12 @@ int	ft_pwd(t_cmd *cmd)
 	return (0);
 }
 
-/*
-builtins/ft_unset.c
-*/
-/*
-**	выводит сообщение об ошибке для export или unset
-*/
-
 void	var_print_error(int fd, char *var)
 {
 	write(fd, "export: `", 9);
 	ft_putstr_fd(var, fd);
 	write(fd, "': not a valid identifier\n", 26);
 }
-
-/*
-**	проверяет на валидность переменную для export или unset
-*/
 
 int	var_valid(char *var)
 {
@@ -281,15 +247,6 @@ int	ft_unset(t_cmd *cmd)
 	return (0);
 }
 
-/*
-builtins/shlvl.c
-*/
-/*
-**	проверяет на валидность уровень
-**	он должен быть только цифровой
-**	succes = 0, fail = 1
-*/
-
 int	shlvl_valid(char *str)
 {
 	int		i;
@@ -303,10 +260,6 @@ int	shlvl_valid(char *str)
 	}
 	return (0);
 }
-
-/*
-**	увеличивает на один уровень значение SHLVL
-*/
 
 void	shlvl_increment(char *shlvl)
 {
@@ -340,9 +293,6 @@ void	shlvl_set(void)
 	free(shlvl);
 }
 
-/*
-cmd/cmd_utils.c
-*/
 int	ft_cmdlen(t_cmd *lst)
 {
 	int		i;
@@ -408,9 +358,6 @@ t_cmd	*cmd_init(void)
 	return (cmd);
 }
 
-/*
-cmd/exec_cmd.c
-*/
 int	choose_builtin(t_cmd *cmd)
 {
 	if (!cmd->args)
@@ -522,9 +469,6 @@ void	exec_cmd(t_cmd *cmd)
 	free_cmd(cmd);
 }
 
-/*
-cmd/path_utils.c
-*/
 void	*path_name(char *path, char *cmd_name, t_cmd *cmd)
 {
 	struct stat	buff;
@@ -633,14 +577,6 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-/*
-envp/env_1.c
-*/
-/*
-**	создаёт односвязный список, состоящий
-**	из переменных окружения
-*/
-
 void	env_get(char **envp)
 {
 	t_list	*list;
@@ -656,11 +592,7 @@ void	env_get(char **envp)
 	g_main.env = list;
 }
 
-/*
-**	полностью очищает память односвязного списка
-*/
-
-void	env_free(t_list *list)
+void	list_free(t_list *list)
 {
 	t_list	*mind;
 
@@ -672,10 +604,6 @@ void	env_free(t_list *list)
 		list = mind;
 	}
 }
-
-/*
-**	выводит переменные окружения
-*/
 
 void	env_print(int fd)
 {
@@ -692,12 +620,6 @@ void	env_print(int fd)
 		cp = cp->next;
 	}
 }
-
-/*
-**	возвращает элемент односвязного списка, в котором
-**	содержится строка, которая предшествует строке, в
-**	которой содержится переменная, которую нужно удалить
-*/
 
 static t_list	*env_get_pre_str(char *var, int var_size)
 {
@@ -720,12 +642,6 @@ static t_list	*env_get_pre_str(char *var, int var_size)
 	return (cp);
 }
 
-/*
-**	удаляет из списка элемент, в котором
-**	содержится переменная, поданная на вход
-**	возвращает 0 в случае успеха и 1 в ином случае
-*/
-
 int	env_delete_var(char *var)
 {
 	int		var_size;
@@ -746,14 +662,6 @@ int	env_delete_var(char *var)
 	return (0);
 }
 
-/*
-envp/env_2.c
-*/
-/*
-**	создаёт строку из переменной и
-**	её значения через знак равно
-*/
-
 static char	*env_new_str(char *var, char *value)
 {
 	char	*new_str;
@@ -768,10 +676,6 @@ static char	*env_new_str(char *var, char *value)
 	return (new_str);
 }
 
-/*
-**	добавляет новую переменную
-*/
-
 void	env_add_new_var(char *var, char *value)
 {
 	char	*new_str;
@@ -779,12 +683,6 @@ void	env_add_new_var(char *var, char *value)
 	new_str = env_new_str(var, value);
 	ft_lstadd_back(&(g_main.env), ft_lstnew(new_str));
 }
-
-/*
-**	изменяет значение переменной, которую принимает
-**	первым аргументом
-**	возвращает 0 в случае успеха и 1 в ином случае
-*/
 
 int	env_change_var(char *var, char *value)
 {
@@ -804,12 +702,6 @@ int	env_change_var(char *var, char *value)
 	return (0);
 }
 
-/*
-**	возвращает элемент односвязного списка, в котором
-**	содержится строка с нужной переменной
-**	если такой строки нет, то будет возвращено NULL
-*/
-
 t_list	*env_get_str(char *var, int var_size)
 {
 	t_list	*cp;
@@ -828,9 +720,6 @@ t_list	*env_get_str(char *var, int var_size)
 	return (cp);
 }
 
-/*
-envp/env_3.c
-*/
 void	env_get_var_mem_fill(char *ret_str, char *var_str, int var_size)
 {
 	int		i;
@@ -844,11 +733,6 @@ void	env_get_var_mem_fill(char *ret_str, char *var_str, int var_size)
 	}
 	ret_str[i] = '\0';
 }
-
-/*
-**	возвращает значение переменной, которую принимает
-**	первым аргументом
-*/
 
 char	*env_get_var(char *var)
 {
@@ -874,10 +758,6 @@ char	*env_get_var(char *var)
 	env_get_var_mem_fill(ret_str, var_str, var_size);
 	return (ret_str);
 }
-
-/*
-**	создаёт отдельный двумерный массив из односвязного списка env
-*/
 
 char	**envp_arr(void)
 {
@@ -911,10 +791,6 @@ void	envp_arr_free(char **envp_arr)
 	free(envp_arr);
 }
 
-
-/*
-history/dlist.c
-*/
 t_dlist	*dlist_new(void *content)
 {
 	t_dlist	*new;
@@ -985,9 +861,6 @@ void	dlist_end(void)
 	}
 }
 
-/*
-history/hist.c
-*/
 void	hist_create(void)
 {
 	char	*path;
@@ -1016,10 +889,6 @@ void	hist_create(void)
 	g_main.history.flag = 0;
 }
 
-/*
-**	добавляет введённую строку в историю
-*/
-
 void	hist_add_str(char *str)
 {
 	char	str_size;
@@ -1030,9 +899,6 @@ void	hist_add_str(char *str)
 	dlist_add_back(&(g_main.history.hist_start), dlist_new(ft_strdup(str)));
 }
 
-/*
-parser/parse_builtins.c
-*/
 char	*str_tolower(char *str)
 {
 	char	*copy;
@@ -1076,9 +942,6 @@ void	tolower_builtin(t_cmd *cmd)
 	}
 }
 
-/*
-parser/parse_dollar.c
-*/
 void	dollar_status(char **line, char **superline)
 {
 	char	*tmp_status;
@@ -1133,9 +996,6 @@ void	dollar(char **line, char **superline)
 	dollar_get_value(line, superline, i);
 }
 
-/*
-parser/parse_utils.c
-*/
 void	skip_spaces(char **line)
 {
 	if (*line)
@@ -1179,9 +1039,6 @@ void	simple_chr(char **line, char **superline)
 	(*line)++;
 }
 
-/*
-parser/parser.c
-*/
 void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
 {
 	char	*tmp;
@@ -1287,11 +1144,6 @@ void	parse_cmd(char *line)
 		free_cmd(start);
 }
 
-
-
-/*
-pipes_and_redirects/add_pipe.c
-*/
 void	close_pipes(t_cmd *cmd)
 {
 	while (cmd->prev)
@@ -1329,11 +1181,6 @@ void	add_pipe(t_cmd *cmd, char **line)
 		exit(EXIT_FAILURE);
 	}
 }
-
-/*
-pipes_and_redirects/heredoc_redirect.c
-*/
-
 
 void	add_heredoc(char *end, int heredoc_fd)
 {
@@ -1379,14 +1226,6 @@ int	get_input(char *stop, int heredoc_fd)
 	return (status);
 }
 
-/*
-term/input_1.c
-*/
-/*
-**	проверяет строку на печатаемые символы
-**	в данном контексте '\n' является печатаемым
-*/
-
 int	n_is_print(char *str)
 {
 	int		i;
@@ -1400,11 +1239,6 @@ int	n_is_print(char *str)
 	}
 	return (0);
 }
-
-/*
-**	отсекает от строки последний символ и возвращает новую строку
-**	если отсечь нечего, то возвращается пустая строка
-*/
 
 char	*str_end(char *str)
 {
@@ -1427,11 +1261,6 @@ char	*str_end(char *str)
 	return (new_str);
 }
 
-/*
-**	соединяет две строки в одну команду
-**	в случае неудачи, возвращает пустую строку
-*/
-
 char	*get_command(char *str, char *add)
 {
 	char	*command;
@@ -1444,11 +1273,6 @@ char	*get_command(char *str, char *add)
 	free(add);
 	return (command);
 }
-
-/*
-**	дополняет команду, которая содержится
-**	в истории, либо в основном вводе
-*/
 
 void	hist_or_command(char *buf)
 {
@@ -1465,10 +1289,6 @@ void	hist_or_command(char *buf)
 			= get_command(g_main.history.hist_end->content, ft_strdup(buf));
 	}
 }
-
-/*
-**	главная функция ввода данных
-*/
 
 void	input(void)
 {
@@ -1493,16 +1313,6 @@ void	input(void)
 	free(g_main.history.command);
 	free(g_main.history.hist_buf);
 }
-
-/*
-term/input_2.c
-*/
-
-
-/*
-**	обработка клавиши enter
-**	здесь str_end используется для отсечения '\n'
-*/
 
 static void	kenter(void)
 {
@@ -1544,10 +1354,6 @@ void	control_characters(char *str)
 		kenter();
 }
 
-
-/*
-term/keys.c
-*/
 void	kup(void)
 {
 	if (g_main.history.hist_end == NULL)
@@ -1636,15 +1442,6 @@ int	keys(char *key)
 	return (0);
 }
 
-
-/*
-term/prompt.c
-*/
-
-/*
-**	возвращает количество строк в двумерном массиве
-*/
-
 int	arr_size(char **arr)
 {
 	int		i;
@@ -1664,10 +1461,6 @@ void	home_dir(char *message)
 	tputs(tgetstr("sc", 0), 1, output_func);
 	free(message);
 }
-
-/*
-**	выводит приглашение к вводу
-*/
 
 void	print_message(void)
 {
@@ -1697,9 +1490,6 @@ void	print_message(void)
 	free(spt_strs);
 }
 
-/*
-term/setup_term.c
-*/
 int	output_func(int c)
 {
 	int				i;
@@ -1707,13 +1497,6 @@ int	output_func(int c)
 	i = write(1, &c, 1);
 	return (i);
 }
-
-/*
-**	1) get term struct
-**	2) change this struct
-**	3) save changes
-**	4) apply this changes
-*/
 
 void	setup_term(void)
 {
@@ -1736,15 +1519,6 @@ void	reset_term(void)
 	tgetent(0, term = env_get_var("TERM"));
 	free(term);
 }
-
-/*
-term/signals.c
-*/
-
-/*
-** 0 - parent
-** >0 - child
-*/
 
 void	main_int(void)
 {
