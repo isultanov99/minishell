@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 18:19:40 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/15 18:38:30 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	dright(char **line)
 	return (fd);
 }
 
-int	sleft(char **line)
+int	sredirect(char **line, char flag)
 {
 	char	*file;
 	int		fd;
@@ -68,28 +68,10 @@ int	sleft(char **line)
 	skip_spaces(line);
 	while (**line && **line != ' ')
 		parse_chr(line, &file, NULL);
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		g_main.status = 1;
-		perror(file);
-	}
-	skip_spaces(line);
-	free(file);
-	return (fd);
-}
-
-int	sright(char **line)
-{
-	char	*file;
-	int		fd;
-
-	file = ft_calloc(1);
-	(*line)++;
-	skip_spaces(line);
-	while (**line && **line != ' ')
-		parse_chr(line, &file, NULL);
-	fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (flag == '<')
+		fd = open(file, O_RDONLY);
+	else if (flag == '>')
+		fd = open(file, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	if (fd < 0)
 	{
 		g_main.status = 1;
@@ -111,9 +93,9 @@ void	add_redirect(t_cmd *cmd, char **line)
 	else if (!ft_strncmp(*line, ">>", 2))
 		cmd->output = dright(line);
 	else if (**line == '>')
-		cmd->output = sright(line);
+		cmd->output = sredirect(line, **line);
 	else if (**line == '<')
-		cmd->input = sleft(line);
+		cmd->input = sredirect(line, **line);
 	if (cmd->input < 0 || cmd->output < 0)
 		cmd->file_error = 1;
 }
