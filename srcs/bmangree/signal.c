@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 19:44:10 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/15 20:43:35 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	sig_int(int code)
 		print_message();
 		g_main.status = 1;
 		if (g_main.history.flag == 1)
-			hist_int();
-		main_int();
+			hist_inp();
+		main_inp();
 	}
 	if (g_main.sig_pid > 0)
 		g_main.status = 130;

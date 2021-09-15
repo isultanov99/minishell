@@ -201,51 +201,6 @@ int	ft_pwd(t_cmd *cmd)
 	return (0);
 }
 
-void	var_print_error(int fd, char *var)
-{
-	write(fd, "export: `", 9);
-	ft_putstr_fd(var, fd);
-	write(fd, "': not a valid identifier\n", 26);
-}
-
-int	var_valid(char *var)
-{
-	int		i;
-
-	i = 0;
-	if (ft_isalpha(var[i]) == 0)
-		return (1);
-	i = 1;
-	while (var[i])
-	{
-		if (ft_isalnum(var[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_unset(t_cmd *cmd)
-{
-	int		fd;
-	char	**params;
-	int		i;
-
-	fd = cmd->output;
-	params = cmd->args;
-	i = 1;
-	while (params[i])
-	{
-		if (var_valid(params[i]) == 1)
-		{
-			var_print_error(fd, params[i]);
-			return (1);
-		}
-		env_delete_var(params[i]);
-		i++;
-	}
-	return (0);
-}
 
 int	shlvl_valid(char *str)
 {
@@ -358,31 +313,6 @@ t_cmd	*cmd_init(void)
 	return (cmd);
 }
 
-int	choose_builtin(t_cmd *cmd)
-{
-	if (!cmd->args)
-		return (0);
-	if (cmd->file_error)
-		return (1);
-	if (ft_strcmp("cd", cmd->args[0]) == 0)
-		g_main.status = ft_cd(cmd);
-	else if (ft_strcmp("echo", cmd->args[0]) == 0)
-		g_main.status = ft_echo(cmd);
-	else if (ft_strcmp("env", cmd->args[0]) == 0)
-		g_main.status = ft_env(cmd);
-	else if (ft_strcmp("exit", cmd->args[0]) == 0)
-		g_main.status = ft_exit(cmd);
-	else if (ft_strcmp("export", cmd->args[0]) == 0)
-		g_main.status = ft_export(cmd);
-	else if (ft_strcmp("pwd", cmd->args[0]) == 0)
-		g_main.status = ft_pwd(cmd);
-	else if (ft_strcmp("unset", cmd->args[0]) == 0)
-		g_main.status = ft_unset(cmd);
-	else
-		return (0);
-	return (1);
-}
-
 void	fork_cmd_routine(t_cmd *cmd)
 {
 	char	**tmp;
@@ -416,7 +346,7 @@ void	scmd(t_cmd *cmd)
 {
 	int		status;
 
-	if (!choose_builtin(cmd))
+	if (!(choose_builtin(cmd)))
 	{
 		g_main.sig_pid = fork();
 		if (g_main.sig_pid == 0)
@@ -439,7 +369,7 @@ void	mcmd(t_cmd *cmd)
 		g_main.sig_pid = fork();
 		if (g_main.sig_pid == 0)
 		{
-			if (!choose_builtin(cmd))
+			if (!(choose_builtin(cmd)))
 				fork_cmd_routine(cmd);
 			else
 				exit(g_main.status);
@@ -1120,6 +1050,7 @@ t_cmd	*parse_str(t_cmd *cmd, char **line)
 	return (cmd);
 }
 
+
 void	parse_cmd(char *line)
 {
 	t_cmd		*start;
@@ -1142,44 +1073,6 @@ void	parse_cmd(char *line)
 	}
 	else
 		free_cmd(start);
-}
-
-void	close_pipes(t_cmd *cmd)
-{
-	while (cmd->prev)
-		cmd = cmd->prev;
-	while (cmd->next)
-	{
-		close(cmd->pipe_fd[0]);
-		close(cmd->pipe_fd[1]);
-		cmd = cmd->next;
-	}
-}
-
-void	link_pipes(t_cmd *cmd)
-{
-	while (cmd)
-	{
-		if (cmd->next)
-		{
-			if (cmd->next->input == STDIN_FILENO)
-				cmd->next->input = cmd->pipe_fd[0];
-			if (cmd->output == STDOUT_FILENO)
-				cmd->output = cmd->pipe_fd[1];
-		}
-		cmd = cmd->next;
-	}
-}
-
-void	add_pipe(t_cmd *cmd, char **line)
-{
-	(*line)++;
-	skip_spaces(line);
-	if ((pipe(cmd->pipe_fd)) == -1)
-	{
-		perror("Pipe error");
-		exit(1);
-	}
 }
 
 void	add_heredoc(char *end, int heredoc_fd)
@@ -1498,29 +1391,7 @@ int	output_func(int c)
 	return (i);
 }
 
-void	setup_term(void)
-{
-	struct termios	setup;
-	char			*term;
-
-	tcgetattr(0, &setup);
-	setup.c_lflag &= (~ECHO);
-	setup.c_lflag &= (~ICANON);
-	tcsetattr(0, 0, &setup);
-	tgetent(0, term = env_get_var("TERM"));
-	free(term);
-}
-
-void	reset_term(void)
-{
-	char			*term;
-
-	tcsetattr(0, 0, &g_main.termset);
-	tgetent(0, term = env_get_var("TERM"));
-	free(term);
-}
-
-void	main_int(void)
+void	main_inp(void)
 {
 	g_main.history.flag = 0;
 	if (g_main.history.command != NULL)
@@ -1530,7 +1401,7 @@ void	main_int(void)
 	dlist_end();
 }
 
-void	hist_int(void)
+void	hist_inp(void)
 {
 	free(g_main.history.hist_end->content);
 	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);

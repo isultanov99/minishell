@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 18:38:30 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/15 20:57:57 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	sredirect(char **line, char flag)
 	char	*file;
 	int		fd;
 
+	fd = 0;
 	file = ft_calloc(1);
 	(*line)++;
 	skip_spaces(line);
