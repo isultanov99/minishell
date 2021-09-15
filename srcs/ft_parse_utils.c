@@ -32,10 +32,10 @@ void	parse_chr(char **line, char **superline, t_cmd *cmd)
 		dol_sign(line, superline);
 	else if (**line && **line != '|' && **line != '<'
 		&& **line != '>' && **line != ' ')
-		{
+	{
 		*superline = ft_strnjoin(*superline, *line, 1);
 		(*line)++;
-		}
+	}
 }
 
 int	parse_loop(t_cmd *cmd, char **line, char **superline)

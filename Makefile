@@ -23,6 +23,9 @@ SRCS_DIR	= srcs/
 HEADER_DIR	= includes
 
 SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
+			cd.c \
+			echo.c \
+			env.c \
 			ft_builtin.c \
 			ft_cmd.c \
 			ft_dlist.c \
@@ -45,7 +48,9 @@ SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
 			ft_utils6.c \
 			ft_utils7.c \
 			ft_utils8.c \
-			main.c
+			main.c \
+			ft_cmd_utils.c \
+			signal.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 

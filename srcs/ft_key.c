@@ -64,7 +64,7 @@ void	keypressback(void)
 	}
 }
 
-static void	keypressenter(void)
+void	keypressenter(void)
 {
 	if (g_main.history.flag == 0)
 		main_input();

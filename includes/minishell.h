@@ -52,7 +52,7 @@ typedef struct s_cmd
 	int				pipe_fd[2];
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-}t_cmd;
+}			t_cmd;
 
 typedef struct s_data
 {
@@ -62,8 +62,12 @@ typedef struct s_data
 	int				status;
 	int				sig_pid;
 }					t_data;
-t_data	g_main;
+t_data		g_main;
 
+int		check_path(char **path, t_cmd *cmd);
+int		check_file(t_cmd *cmd);
+char	*export_var(char *str);
+void	space_skipper(char **line);
 void	env_get(char **envp);
 void	list_free(t_list *list);
 void	env_print(int fd);
@@ -80,10 +84,15 @@ void	dlist_add_back(t_dlist **dlist, t_dlist *new);
 void	dlist_print(t_dlist *dlist);
 void	dlist_free(t_dlist *dlist);
 void	dlist_end(void);
+int		n_is_print(char *str);
+void	dol_sign_status(char **line, char **superline);
+void	hist_or_command(char *buf);
+char	*get_command(char *str, char *add);
 void	print_message(void);
 void	input(void);
 char	*str_end(char *str);
 int		keys(char *key);
+void	keypressenter(void);
 void	home_dir(char *message);
 void	hist_create(void);
 void	hist_add_str(char *str);
@@ -101,7 +110,10 @@ int		ft_export(t_cmd *cmd);
 int		ft_unset(t_cmd *cmd);
 int		ft_env(t_cmd *cmd);
 int		ft_exit(t_cmd *cmd);
+t_cmd	*last_cmd(t_cmd *lst);
 void	export_print(int fd);
+void	fork_cmd_routine(t_cmd *cmd);
+int		export_add(int fd, char *str);
 int		var_valid(char *var);
 void	var_print_error(int fd, char *var);
 void	skip_spaces(char **line);
