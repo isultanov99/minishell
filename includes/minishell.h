@@ -160,7 +160,7 @@ void	parse_cmd(char *line);
 ** redirects and pipes
 */
 void	add_redirect(t_cmd *cmd, char **line);
-int		dleft(char **line);
+int		get_input(char *stop, int heredoc_fd);
 void	add_pipe(t_cmd *cmd, char **line);
 void	link_pipes(t_cmd *start);
 void	close_pipes(t_cmd *cmd);

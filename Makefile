@@ -30,7 +30,8 @@ SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
 			cpablo/echo.c \
 			cpablo/env.c \
 			ft_exit.c \
-			ft_input.c
+			ft_input.c \
+			ft_redirects.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 
