@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 21:21:27 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 21:22:58 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/16 00:29:33 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	close_pipes(t_cmd *cmd)
 void	add_pipe(t_cmd *cmd, char **line)
 {
 	(*line)++;
-	skip_spaces(line);
+	space_skipper(line);
 	if ((pipe(cmd->pipe_fd)) == -1)
 	{
 		perror("Pipe error");

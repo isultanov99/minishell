@@ -64,6 +64,18 @@ void	keypressback(void)
 	}
 }
 
+static void	keypressenter(void)
+{
+	if (g_main.history.flag == 0)
+		main_input();
+	if (g_main.history.flag == 1)
+		hist_input();
+	free(g_main.history.command);
+	g_main.history.command = NULL;
+	print_message();
+	g_main.history.flag = 0;
+}
+
 int	keys(char *key)
 {
 	if (ft_strncmp(key, "\e[A", 3) == 0)

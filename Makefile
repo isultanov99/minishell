@@ -23,21 +23,29 @@ SRCS_DIR	= srcs/
 HEADER_DIR	= includes
 
 SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
-			main.c \
-			minishell_reverse.c \
-			bmangree/signal.c \
-			cpablo/cd.c \
-			cpablo/echo.c \
-			cpablo/env.c \
+			ft_builtin.c \
+			ft_cmd.c \
+			ft_dlist.c \
+			ft_dollar_quotes.c \
 			ft_exit.c \
 			ft_input.c \
+			ft_key.c \
+			ft_output.c \
+			ft_parse_utils.c \
+			ft_pipes.c \
 			ft_redirects.c \
-			ft_builtin.c \
+			ft_shlvl.c \
 			ft_tc.c \
 			ft_unset.c \
-			ft_pipes.c \
-			ft_output.c \
-			ft_key.c
+			ft_utils.c \
+			ft_utils2.c \
+			ft_utils3.c \
+			ft_utils4.c \
+			ft_utils5.c \
+			ft_utils6.c \
+			ft_utils7.c \
+			ft_utils8.c \
+			main.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 

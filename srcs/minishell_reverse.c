@@ -201,7 +201,6 @@ int	ft_pwd(t_cmd *cmd)
 	return (0);
 }
 
-
 int	shlvl_valid(char *str)
 {
 	int		i;
@@ -721,76 +720,6 @@ void	envp_arr_free(char **envp_arr)
 	free(envp_arr);
 }
 
-t_dlist	*dlist_new(void *content)
-{
-	t_dlist	*new;
-
-	new = (t_dlist *)malloc(sizeof(t_dlist));
-	if (new == 0)
-		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-void	dlist_add_back(t_dlist **dlist, t_dlist *new)
-{
-	t_dlist	*begin;
-
-	if (dlist == 0 || new == 0)
-		return ;
-	if (*dlist == 0)
-	{
-		new->next = NULL;
-		new->prev = NULL;
-		*dlist = new;
-		return ;
-	}
-	begin = *dlist;
-	while (begin->next)
-		begin = begin->next;
-	begin->next = new;
-	new->next = NULL;
-	new->prev = begin;
-}
-
-void	dlist_print(t_dlist *dlist)
-{
-	t_dlist	*copy;
-
-	copy = dlist;
-	while (copy)
-	{
-		printf("%s", (char *)copy->content);
-		copy = copy->next;
-	}
-}
-
-void	dlist_free(t_dlist *dlist)
-{
-	t_dlist	*mind;
-
-	while (dlist)
-	{
-		mind = dlist->next;
-		free(dlist->content);
-		free(dlist);
-		dlist = mind;
-	}
-}
-
-void	dlist_end(void)
-{
-	g_main.history.hist_end = g_main.history.hist_start;
-	while (g_main.history.hist_end)
-	{
-		if (g_main.history.hist_end->next == 0)
-			break ;
-		g_main.history.hist_end = g_main.history.hist_end->next;
-	}
-}
-
 void	hist_create(void)
 {
 	char	*path;
@@ -926,7 +855,7 @@ void	dol_sign(char **line, char **superline)
 	dol_sign_get_value(line, superline, i);
 }
 
-void	skip_spaces(char **line)
+void	space_skipper(char **line)
 {
 	if (*line)
 	{
@@ -976,7 +905,7 @@ void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
 	if (!code)
 		cmd->args = ft_realloc_arr(cmd->args, arr_len((void **)cmd->args),
 				*superline);
-	skip_spaces(line);
+	space_skipper(line);
 	if (!**line || code == 1)
 	{
 		free(*superline);
@@ -987,7 +916,7 @@ void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
 		tmp = *superline;
 		*superline = ft_strdup("\0");
 		free (tmp);
-		skip_spaces(line);
+		space_skipper(line);
 	}
 }
 
@@ -1001,7 +930,10 @@ void	parse_chr(char **line, char **superline, t_cmd *cmd)
 		dol_sign(line, superline);
 	else if (**line && **line != '|' && **line != '<'
 		&& **line != '>' && **line != ' ')
-		simple_chr(line, superline);
+		{
+		*superline = ft_strnjoin(*superline, *line, 1);
+		(*line)++;
+		}
 }
 
 int	parse_loop(t_cmd *cmd, char **line, char **superline)
@@ -1039,7 +971,7 @@ t_cmd	*parse_str(t_cmd *cmd, char **line)
 
 	cmd = cmd_init();
 	superline = ft_calloc(1);
-	skip_spaces(line);
+	space_skipper(line);
 	while (**line)
 		if ((parse_loop(cmd, line, &superline)))
 			return (cmd);
@@ -1049,7 +981,6 @@ t_cmd	*parse_str(t_cmd *cmd, char **line)
 	end_of_args(line, &superline, cmd, 0);
 	return (cmd);
 }
-
 
 void	parse_cmd(char *line)
 {
@@ -1207,7 +1138,7 @@ void	input(void)
 	free(g_main.history.hist_buf);
 }
 
-static void	kenter(void)
+static void	keypressenter(void)
 {
 	if (g_main.history.flag == 0)
 		main_input();
@@ -1244,7 +1175,7 @@ void	control_characters(char *str)
 			ft_putstr_fd(g_main.history.hist_end->content, 1);
 	}
 	if (ft_strncmp(str, "\n", 1) == 0)
-		kenter();
+		keypressenter();
 }
 
 void	home_dir(char *message)

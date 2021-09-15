@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 20:57:57 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/16 00:29:33 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	dleft(char **line)
 	stop = ft_calloc(1);
 	status = 0;
 	*line = *line + 2;
-	skip_spaces(line);
+	space_skipper(line);
 	while (**line && **line != ' ')
 		parse_chr(line, &stop, NULL);
 	heredoc_fd = open(".heredoc", O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -32,7 +32,7 @@ int	dleft(char **line)
 		return (-1);
 	}
 	heredoc_fd = open(".heredoc", O_RDONLY);
-	skip_spaces(line);
+	space_skipper(line);
 	free(stop);
 	return (heredoc_fd);
 }
@@ -44,7 +44,7 @@ int	dright(char **line)
 
 	file = ft_calloc(1);
 	*line = *line + 2;
-	skip_spaces(line);
+	space_skipper(line);
 	while (**line && **line != ' ')
 		parse_chr(line, &file, NULL);
 	fd = open(file, O_RDWR | O_CREAT | O_APPEND, 0666);
@@ -53,7 +53,7 @@ int	dright(char **line)
 		g_main.status = 1;
 		perror(file);
 	}
-	skip_spaces(line);
+	space_skipper(line);
 	free(file);
 	return (fd);
 }
@@ -66,7 +66,7 @@ int	sredirect(char **line, char flag)
 	fd = 0;
 	file = ft_calloc(1);
 	(*line)++;
-	skip_spaces(line);
+	space_skipper(line);
 	while (**line && **line != ' ')
 		parse_chr(line, &file, NULL);
 	if (flag == '<')
@@ -78,7 +78,7 @@ int	sredirect(char **line, char flag)
 		g_main.status = 1;
 		perror(file);
 	}
-	skip_spaces(line);
+	space_skipper(line);
 	free(file);
 	return (fd);
 }

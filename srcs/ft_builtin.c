@@ -3,14 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:14:29 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 20:14:53 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/16 00:33:42 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <../includes/minishell.h>
+
+int	ft_export(t_cmd *cmd)
+{
+	int		fd;
+	char	**params;
+	int		i;
+
+	fd = cmd->output;
+	params = cmd->args;
+	i = 1;
+	if (params[i] == 0)
+	{
+		export_print(fd);
+		return (0);
+	}
+	while (params[i])
+	{
+		if (export_add(fd, params[i]) == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_pwd(t_cmd *cmd)
+{
+	int		fd;
+	char	**params;
+	char	*pwd_path;
+
+	fd = cmd->output;
+	params = cmd->args;
+	pwd_path = getcwd(NULL, 0);
+	if (pwd_path == 0)
+		return (1);
+	ft_putstr_fd(pwd_path, fd);
+	write(fd, "\n", 1);
+	free(pwd_path);
+	return (0);
+}
 
 int	choose_builtin(t_cmd *cmd)
 {
