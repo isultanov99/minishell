@@ -6,6 +6,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <sys/stat.h>
 # include <dirent.h>
@@ -83,6 +84,7 @@ void	print_message(void);
 void	input(void);
 char	*str_end(char *str);
 int		keys(char *key);
+void	home_dir(char *message);
 void	hist_create(void);
 void	hist_add_str(char *str);
 void	str_to_exec(char *str);

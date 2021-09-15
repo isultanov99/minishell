@@ -12,11 +12,11 @@
 
 NAME    	= minishell
 
-CFLAGS		= -lreadline -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 
 LIBFT_FLAGS = -L./srcs/libft -lft
 
-TERMCAP		= -ltermcap
+TERMREAD	= -ltermcap -lreadline
 
 SRCS_DIR	= srcs/
 
@@ -35,7 +35,9 @@ SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
 			ft_builtin.c \
 			ft_tc.c \
 			ft_unset.c \
-			ft_pipes.c
+			ft_pipes.c \
+			ft_output.c \
+			ft_key.c
 
 SRCS 		= $(addprefix $(SRCS_DIR), $(SRC))
 
@@ -53,7 +55,7 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 			@make -C ./srcs/libft
-			gcc $(CFLAGS) -I $(INC) $(LIBFT_FLAGS) $(TERMCAP) $^ -o $(NAME)
+			gcc $(CFLAGS) -I$(INC) $^ $(LIBFT_FLAGS) $(TERMREAD) -o $(NAME)
 
 %.o:		%.c Makefile
 			@gcc -I $(INC) -MMD -MP -c $< -o $@
