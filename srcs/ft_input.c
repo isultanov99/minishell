@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_input.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 20:25:00 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 18:03:13 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:57:03 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	input(void)
 	int		i;
 	char	buf[4];
 
-	print_message();
+	print_msg();
 	g_main.hist.command_print = 0;
 	g_main.hist.command = NULL;
 	g_main.hist.h_buf = NULL;
@@ -67,7 +67,7 @@ void	input(void)
 	{
 		i = read(0, buf, 3);
 		buf[i] = '\0';
-		if (!keys(buf) && n_is_print(buf) == 0)
+		if (!key_hander(buf) && n_is_print(buf) == 0)
 		{
 			write(1, buf, i);
 			h_or_command(buf);

@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	dol_sign_get_value(char **line, char **superline, int len)
+void	dol_sign_get_value(char **line, char **fullline, int len)
 {
 	char	*key;
 	char	*value;
@@ -10,13 +10,13 @@ void	dol_sign_get_value(char **line, char **superline, int len)
 	key = ft_substr(*line, 0, len);
 	value = env_get_var(key);
 	if (value && *value)
-		*superline = ft_strnjoin(*superline, value, ft_strlen(value));
+		*fullline = ft_strnjoin(*fullline, value, ft_strlen(value));
 	free(key);
 	free(value);
 	*line += len;
 }
 
-void	dol_sign(char **line, char **superline)
+void	dol_sign(char **line, char **fullline)
 {
 	int		i;
 
@@ -24,7 +24,7 @@ void	dol_sign(char **line, char **superline)
 	(*line)++;
 	if (**line == '?')
 	{
-		dol_sign_status(line, superline);
+		dol_sign_status(line, fullline);
 		return ;
 	}
 	else if (ft_isdigit(**line))
@@ -37,10 +37,10 @@ void	dol_sign(char **line, char **superline)
 		i++;
 	if (!i)
 	{
-		*superline = ft_strnjoin(*superline, "$", 1);
+		*fullline = ft_strnjoin(*fullline, "$", 1);
 		return ;
 	}
-	dol_sign_get_value(line, superline, i);
+	dol_sign_get_value(line, fullline, i);
 }
 
 void	space_skipper(char **line)
@@ -52,30 +52,30 @@ void	space_skipper(char **line)
 	}
 }
 
-void	squotes(char **line, char **superline, t_data *cmd)
+void	squotes(char **line, char **fullline, t_data *cmd)
 {
-	*superline = ft_strnjoin(*superline, *line + 1,
+	*fullline = ft_strnjoin(*fullline, *line + 1,
 			ft_strlen_chr(*line + 1, '\''));
 	*line += ft_strlen_chr(*line + 1, '\'') + 2;
-	if (cmd && !**line && !**superline)
-		end_of_args(line, superline, cmd, 0);
+	if (cmd && !**line && !**fullline)
+		end_of_args(line, fullline, cmd, 0);
 }
 
-void	dquotes(char **line, char **superline, t_data *cmd)
+void	dquotes(char **line, char **fullline, t_data *cmd)
 {
 	(*line)++;
 	while (**line && **line != '\"')
 	{
 		if (**line == '$')
-			dol_sign(line, superline);
+			dol_sign(line, fullline);
 		else
 		{
-			*superline = ft_strnjoin(*superline, *line, 1);
+			*fullline = ft_strnjoin(*fullline, *line, 1);
 			(*line)++;
 		}
 	}
 	if (**line)
 		(*line)++;
-	if (cmd && !**superline && !**line)
-		end_of_args(line, superline, cmd, 0);
+	if (cmd && !**fullline && !**line)
+		end_of_args(line, fullline, cmd, 0);
 }

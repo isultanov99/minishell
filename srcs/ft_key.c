@@ -72,11 +72,11 @@ void	keypressenter(void)
 		h_input();
 	free(g_main.hist.command);
 	g_main.hist.command = NULL;
-	print_message();
+	print_msg();
 	g_main.hist.flag = 0;
 }
 
-int	keys(char *key)
+int	key_hander(char *key)
 {
 	if (ft_strncmp(key, "\e[A", 3) == 0)
 	{

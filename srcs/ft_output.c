@@ -10,7 +10,7 @@ int	arr_size(char **arr)
 	return (i);
 }
 
-void	print_message(void)
+void	print_msg(void)
 {
 	char	*message;
 	char	**spt_strs;

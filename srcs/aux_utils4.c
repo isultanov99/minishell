@@ -54,7 +54,7 @@ int	export_add(int fd, char *str)
 		return (1);
 	}
 	value = export_value(str);
-	is_changed = env_change_var(var, value);
+	is_changed = change_env_var(var, value);
 	if (is_changed)
 		env_add_new_var(var, value);
 	free(var);

@@ -6,7 +6,7 @@
 /*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 18:23:00 by cpablo            #+#    #+#             */
-/*   Updated: 2021/09/17 18:23:01 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 18:55:45 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cd_print_error(char *path, int fd)
 	write(fd, "\n", 1);
 }
 
-int	no_arg(int fd, char *pwd_path)
+int	cd_without_arg(int fd, char *pwd_path)
 {
 	char	*home_path;
 
@@ -33,8 +33,8 @@ int	no_arg(int fd, char *pwd_path)
 	}
 	if (chdir(home_path) == 0)
 	{
-		env_change_var("OLDPWD", pwd_path);
-		env_change_var("PWD", home_path);
+		change_env_var("OLDPWD", pwd_path);
+		change_env_var("PWD", home_path);
 	}
 	else
 	{
@@ -44,15 +44,15 @@ int	no_arg(int fd, char *pwd_path)
 	return (0);
 }
 
-int	with_arg(int fd, char *path, char *cwd_path, char *pwd_path)
+int	cd_with_arg(int fd, char *path, char *cwd_path, char *pwd_path)
 {
 	if (strcmp("/", cwd_path) == 0)
 		return (0);
 	if (chdir(path) == 0)
 	{
 		cwd_path = getcwd(NULL, 0);
-		env_change_var("OLDPWD", pwd_path);
-		env_change_var("PWD", cwd_path);
+		change_env_var("OLDPWD", pwd_path);
+		change_env_var("PWD", cwd_path);
 	}
 	else
 	{
@@ -74,10 +74,10 @@ int	ft_cd(t_data *cmd)
 	path = cmd->args[1];
 	cwd_path = getcwd(NULL, 0);
 	pwd_path = getenv("PWD");
-	if (!path)
-		result = no_arg(fd, pwd_path);
+	if (path)
+		result = cd_with_arg(fd, path, cwd_path, pwd_path);
 	else
-		result = with_arg(fd, path, cwd_path, pwd_path);
+		result = cd_without_arg(fd, pwd_path);
 	free(cwd_path);
 	return (result);
 }

@@ -43,12 +43,12 @@ void	tolower_builtin(t_data *cmd)
 	}
 }
 
-void	dol_sign_status(char **line, char **superline)
+void	dol_sign_status(char **line, char **fullline)
 {
 	char	*tmp_status;
 
 	tmp_status = ft_itoa(g_main.status);
-	*superline = ft_strnjoin(*superline, tmp_status, ft_strlen(tmp_status));
+	*fullline = ft_strnjoin(*fullline, tmp_status, ft_strlen(tmp_status));
 	free(tmp_status);
 	(*line)++;
 	g_main.status = 0;

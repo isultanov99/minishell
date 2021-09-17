@@ -63,7 +63,7 @@ void	env_add_new_var(char *var, char *value)
 	ft_lstadd_back(&(g_main.env), ft_lstnew(new_str));
 }
 
-int	env_change_var(char *var, char *value)
+int	change_env_var(char *var, char *value)
 {
 	int		var_size;
 	t_list	*list;

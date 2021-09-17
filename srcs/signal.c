@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 18:03:13 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:57:03 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	sig_int(int code)
 	write(1, "\n", 1);
 	if (g_main.sig_pid == 0)
 	{
-		print_message();
+		print_msg();
 		g_main.status = 1;
 		if (g_main.hist.flag == 1)
 			h_inp();

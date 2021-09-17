@@ -72,7 +72,7 @@ void	control_characters(char *str)
 	if (ft_strncmp(str, "\f", 1) == 0)
 	{
 		tputs(tgetstr("cl", 0), 1, output_func);
-		print_message();
+		print_msg();
 		if (g_main.hist.flag == 0)
 			ft_putstr_fd(g_main.hist.command, 1);
 		if (g_main.hist.flag == 1)
