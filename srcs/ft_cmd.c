@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cmd.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/17 18:23:30 by cpablo            #+#    #+#             */
+/*   Updated: 2021/09/17 18:23:31 by cpablo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	put_back_cmd(t_data **start, t_data *new)
@@ -41,20 +53,20 @@ t_data	*cmd_init(void)
 	return (cmd);
 }
 
-void	fork_cmd_routine(t_data *cmd)
+void	fork_cmd(t_data *cmd)
 {
-	char	**tmp;
+	char	**tmp_cmd;
 
-	tmp = envp_arr();
+	tmp_cmd = envp_arr();
 	dup2(cmd->input, STDIN_FILENO);
 	dup2(cmd->output, STDOUT_FILENO);
 	close_pipes(cmd);
-	if (!(get_path(cmd, tmp)))
+	if (!(get_path(cmd, tmp_cmd)))
 		exit(g_main.status);
 	if (cmd->file_error)
 		exit(g_main.status);
-	g_main.status = execve(cmd->path, cmd->args, tmp);
-	ft_free_array((void **)tmp);
+	g_main.status = execve(cmd->path, cmd->args, tmp_cmd);
+	array_free((void **)tmp_cmd);
 	if (g_main.status < 0)
 	{
 		if (errno == ENOEXEC)

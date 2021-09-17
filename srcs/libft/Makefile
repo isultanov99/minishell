@@ -37,7 +37,7 @@ SRCS	= ft_memset.c \
 	ft_putnbr_fd.c \
 	ft_itoa.c \
 	ft_split_set.c \
-	ft_free_array.c \
+	array_free.c \
 	ft_strlen_chr.c \
 	ft_strnjoin.c \
 	ft_lstnew.c \

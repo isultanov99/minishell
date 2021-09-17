@@ -93,7 +93,7 @@ char	**ft_split_set(char *str, char *set)
 			str++;
 		splitted[i] = ft_substr(str, 0, count_len(str, set));
 		if (!splitted[i])
-			return (ft_free_array((void **)splitted));
+			return (array_free((void **)splitted));
 		str += count_len(str, set);
 		i++;
 	}

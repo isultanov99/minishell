@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cmd_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/17 18:23:25 by cpablo            #+#    #+#             */
+/*   Updated: 2021/09/17 18:23:26 by cpablo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void	scmd(t_data *cmd)
@@ -8,7 +20,7 @@ void	scmd(t_data *cmd)
 	{
 		g_main.sig_pid = fork();
 		if (g_main.sig_pid == 0)
-			fork_cmd_routine(cmd);
+			fork_cmd(cmd);
 		else if (g_main.sig_pid < 0)
 			exit(1);
 		wait(&status);
@@ -28,7 +40,7 @@ void	mcmd(t_data *cmd)
 		if (g_main.sig_pid == 0)
 		{
 			if (!(builtin_handler(cmd)))
-				fork_cmd_routine(cmd);
+				fork_cmd(cmd);
 			else
 				exit(g_main.status);
 		}

@@ -74,7 +74,7 @@ void	free_cmd(t_data *cmd)
 		if (cmd->path)
 			free(cmd->path);
 		if (cmd->args)
-			ft_free_array((void **)cmd->args);
+			array_free((void **)cmd->args);
 		free (cmd);
 		cmd = tmp;
 	}

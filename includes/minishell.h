@@ -58,7 +58,7 @@ typedef struct s_main
 {
 	struct termios	termset;
 	t_list			*env;
-	t_hist		hist;
+	t_hist			hist;
 	int				status;
 	int				sig_pid;
 }					t_main;
@@ -112,7 +112,7 @@ int		ft_env(t_data *cmd);
 int		ft_exit(t_data *cmd);
 t_data	*last_data(t_data *lst);
 void	export_print(int fd);
-void	fork_cmd_routine(t_data *cmd);
+void	fork_cmd(t_data *cmd);
 int		export_add(int fd, char *str);
 int		var_valid(char *var);
 void	var_print_error(int fd, char *var);

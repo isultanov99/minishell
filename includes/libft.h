@@ -60,7 +60,7 @@ char				**ft_split(char const *s, char c);
 int					get_next_line(int fd, char **line);
 int					checker_str_set(char *str, char *set);
 char				**ft_split_set(char *str, char *set);
-void				*ft_free_array(void **array);
+void				*array_free(void **array);
 int					ft_strlen_chr(const char *str, char c);
 char				*ft_strchr_set(char *str, char *set);
 t_list				*ft_lstfind(t_list *begin_list, void *data_ref,

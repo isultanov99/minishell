@@ -71,13 +71,13 @@ void	*get_path(t_data *cmd, char **envp)
 	{
 		ft_putstr_fd("Error: cannot find PATH variable\n", 2);
 		g_main.status = 1;
-		return (ft_free_array((void **)path));
+		return (array_free((void **)path));
 	}
 	if ((checker_file(cmd)) == -1)
-		return (ft_free_array((void **)path));
+		return (array_free((void **)path));
 	else if ((checker_file(cmd)) == 1)
 		if (!checker_path(path, cmd))
-			return (ft_free_array((void **)path));
-	ft_free_array((void **)path);
+			return (array_free((void **)path));
+	array_free((void **)path);
 	return ((void *)1);
 }

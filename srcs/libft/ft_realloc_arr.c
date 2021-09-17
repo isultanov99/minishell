@@ -26,6 +26,6 @@ char	**ft_realloc_arr(char **arr, size_t old_len, char *new_str)
 	new[i] = ft_strdup(new_str);
 	new[++i] = NULL;
 	if (arr)
-		ft_free_array((void **)arr);
+		array_free((void **)arr);
 	return (new);
 }
