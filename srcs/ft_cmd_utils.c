@@ -4,7 +4,7 @@ void	scmd(t_cmd *cmd)
 {
 	int		status;
 
-	if (!(choose_builtin(cmd)))
+	if (!(builtin_handler(cmd)))
 	{
 		g_main.sig_pid = fork();
 		if (g_main.sig_pid == 0)
@@ -27,7 +27,7 @@ void	mcmd(t_cmd *cmd)
 		g_main.sig_pid = fork();
 		if (g_main.sig_pid == 0)
 		{
-			if (!(choose_builtin(cmd)))
+			if (!(builtin_handler(cmd)))
 				fork_cmd_routine(cmd);
 			else
 				exit(g_main.status);

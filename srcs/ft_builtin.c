@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:14:29 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/16 00:33:42 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:31:41 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_pwd(t_cmd *cmd)
 	return (0);
 }
 
-int	choose_builtin(t_cmd *cmd)
+int	builtin_handler(t_cmd *cmd)
 {
 	if (!cmd->args)
 		return (0);

@@ -102,7 +102,7 @@ void	control_characters(char *str);
 int		output_func(int c);
 void	setup_term(void);
 void	reset_term(void);
-int		choose_builtin(t_cmd *cmd);
+int		builtin_handler(t_cmd *cmd);
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_cmd *cmd);
 int		ft_pwd(t_cmd *cmd);
