@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
+void	end_of_args(char **line, char **superline, t_data *cmd, int code)
 {
 	char	*tmp;
 
@@ -22,7 +22,7 @@ void	end_of_args(char **line, char **superline, t_cmd *cmd, int code)
 	}
 }
 
-void	parse_chr(char **line, char **superline, t_cmd *cmd)
+void	parse_chr(char **line, char **superline, t_data *cmd)
 {
 	if (**line && **line == '\'')
 		squotes(line, superline, cmd);
@@ -38,7 +38,7 @@ void	parse_chr(char **line, char **superline, t_cmd *cmd)
 	}
 }
 
-int	parse_loop(t_cmd *cmd, char **line, char **superline)
+int	parse_loop(t_data *cmd, char **line, char **superline)
 {
 	if (**line)
 		parse_chr(line, superline, cmd);
@@ -67,7 +67,7 @@ int	parse_loop(t_cmd *cmd, char **line, char **superline)
 	return (0);
 }
 
-t_cmd	*parse_str(t_cmd *cmd, char **line)
+t_data	*parse_str(t_data *cmd, char **line)
 {
 	char		*superline;
 
@@ -86,8 +86,8 @@ t_cmd	*parse_str(t_cmd *cmd, char **line)
 
 void	parse_cmd(char *line)
 {
-	t_cmd		*start;
-	t_cmd		*cmd;
+	t_data		*start;
+	t_data		*cmd;
 
 	cmd = NULL;
 	start = NULL;
@@ -98,7 +98,7 @@ void	parse_cmd(char *line)
 		if (!*line)
 			break ;
 	}
-	if (!(check_cmd(start)))
+	if (!(checker_cmd(start)))
 	{
 		link_pipes(start);
 		tolower_builtin(start);

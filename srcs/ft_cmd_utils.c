@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	scmd(t_cmd *cmd)
+void	scmd(t_data *cmd)
 {
 	int		status;
 
@@ -18,7 +18,7 @@ void	scmd(t_cmd *cmd)
 	}
 }
 
-void	mcmd(t_cmd *cmd)
+void	mcmd(t_data *cmd)
 {
 	int		status;
 
@@ -43,7 +43,7 @@ void	mcmd(t_cmd *cmd)
 	g_main.sig_pid = 0;
 }
 
-void	exec_cmd(t_cmd *cmd)
+void	exec_cmd(t_data *cmd)
 {
 	if (cmd->args)
 	{

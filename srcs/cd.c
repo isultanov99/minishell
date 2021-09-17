@@ -50,7 +50,7 @@ int	with_arg(int fd, char *path, char *cwd_path, char *pwd_path)
 	return (0);
 }
 
-int	ft_cd(t_cmd *cmd)
+int	ft_cd(t_data *cmd)
 {
 	int		fd;
 	char	*path;

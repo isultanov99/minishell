@@ -62,7 +62,7 @@ int	export_add(int fd, char *str)
 	return (0);
 }
 
-int	ft_cmdlen(t_cmd *lst)
+int	ft_datalen(t_data *lst)
 {
 	int		i;
 
@@ -75,7 +75,7 @@ int	ft_cmdlen(t_cmd *lst)
 	return (i);
 }
 
-t_cmd	*last_cmd(t_cmd *lst)
+t_data	*last_data(t_data *lst)
 {
 	if (lst)
 	{

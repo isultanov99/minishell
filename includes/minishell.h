@@ -41,7 +41,7 @@ typedef struct s_history
 	int				command_print;
 }					t_history;
 
-typedef struct s_cmd
+typedef struct s_data
 {
 	char			**args;
 	char			*path;
@@ -50,9 +50,9 @@ typedef struct s_cmd
 	int				file_error;
 	int				stop;
 	int				pipe_fd[2];
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}			t_cmd;
+	struct s_data	*next;
+	struct s_data	*prev;
+}			t_data;
 
 typedef struct s_main
 {
@@ -64,8 +64,8 @@ typedef struct s_main
 }					t_main;
 t_main		g_main;
 
-int		check_path(char **path, t_cmd *cmd);
-int		check_file(t_cmd *cmd);
+int		checker_path(char **path, t_data *cmd);
+int		checker_file(t_data *cmd);
 char	*export_var(char *str);
 void	space_skipper(char **line);
 void	env_get(char **envp);
@@ -102,46 +102,46 @@ void	control_characters(char *str);
 int		output_func(int c);
 void	setup_term(void);
 void	reset_term(void);
-int		builtin_handler(t_cmd *cmd);
-int		ft_echo(t_cmd *cmd);
-int		ft_cd(t_cmd *cmd);
-int		ft_pwd(t_cmd *cmd);
-int		ft_export(t_cmd *cmd);
-int		ft_unset(t_cmd *cmd);
-int		ft_env(t_cmd *cmd);
-int		ft_exit(t_cmd *cmd);
-t_cmd	*last_cmd(t_cmd *lst);
+int		builtin_handler(t_data *cmd);
+int		ft_echo(t_data *cmd);
+int		ft_cd(t_data *cmd);
+int		ft_pwd(t_data *cmd);
+int		ft_export(t_data *cmd);
+int		ft_unset(t_data *cmd);
+int		ft_env(t_data *cmd);
+int		ft_exit(t_data *cmd);
+t_data	*last_data(t_data *lst);
 void	export_print(int fd);
-void	fork_cmd_routine(t_cmd *cmd);
+void	fork_cmd_routine(t_data *cmd);
 int		export_add(int fd, char *str);
 int		var_valid(char *var);
 void	var_print_error(int fd, char *var);
 void	skip_spaces(char **line);
 void	dol_sign(char **line, char **superline);
-void	squotes(char **line, char **superline, t_cmd *cmd);
-void	dquotes(char **line, char **superline, t_cmd *cmd);
+void	squotes(char **line, char **superline, t_data *cmd);
+void	dquotes(char **line, char **superline, t_data *cmd);
 void	simple_chr(char **line, char **superline);
-void	parse_chr(char **line, char **superline, t_cmd *cmd);
-t_cmd	*parse_str(t_cmd *cmd, char **line);
-void	end_of_args(char **line, char **superline, t_cmd *cmd, int code);
-void	tolower_builtin(t_cmd *cmd);
+void	parse_chr(char **line, char **superline, t_data *cmd);
+t_data	*parse_str(t_data *cmd, char **line);
+void	end_of_args(char **line, char **superline, t_data *cmd, int code);
+void	tolower_builtin(t_data *cmd);
 void	parse_cmd(char *line);
-void	add_redirect(t_cmd *cmd, char **line);
+void	add_redirect(t_data *cmd, char **line);
 int		get_input(char *stop, int heredoc_fd);
-void	add_pipe(t_cmd *cmd, char **line);
-void	link_pipes(t_cmd *start);
-void	close_pipes(t_cmd *cmd);
+void	add_pipe(t_data *cmd, char **line);
+void	link_pipes(t_data *start);
+void	close_pipes(t_data *cmd);
 void	hist_input(void);
 void	main_input(void);
 void	main_inp(void);
 void	hist_inp(void);
 void	sigquit_handler(int code);
 void	sigint_handler(int code);
-void	put_back_cmd(t_cmd **start, t_cmd *new);
-t_cmd	*cmd_init(void);
-int		check_cmd(t_cmd *start);
-void	*get_path(t_cmd *start, char **envp);
-void	exec_cmd(t_cmd *cmd);
-void	free_cmd(t_cmd *cmd);
+void	put_back_cmd(t_data **start, t_data *new);
+t_data	*cmd_init(void);
+int		checker_cmd(t_data *start);
+void	*get_path(t_data *start, char **envp);
+void	exec_cmd(t_data *cmd);
+void	free_cmd(t_data *cmd);
 
 #endif

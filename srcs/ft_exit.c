@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 20:10:07 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 19:38:26 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	exit_code_valid(char *code)
 	return (0);
 }
 
-int	ft_exit(t_cmd *cmd)
+int	ft_exit(t_data *cmd)
 {
 	int		fd;
 	char	**params;

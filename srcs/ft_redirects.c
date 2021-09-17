@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/16 00:29:33 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	sredirect(char **line, char flag)
 	return (fd);
 }
 
-void	add_redirect(t_cmd *cmd, char **line)
+void	add_redirect(t_data *cmd, char **line)
 {
 	if (!ft_strncmp(*line, "<<", 2))
 	{

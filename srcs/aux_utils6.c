@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	*path_name(char *path, char *cmd_name, t_cmd *cmd)
+void	*path_name(char *path, char *cmd_name, t_data *cmd)
 {
 	struct stat	buff;
 	char		*new;
@@ -18,7 +18,7 @@ void	*path_name(char *path, char *cmd_name, t_cmd *cmd)
 	return (NULL);
 }
 
-int	check_path(char **path, t_cmd *cmd)
+int	checker_path(char **path, t_data *cmd)
 {
 	int		i;
 
@@ -35,7 +35,7 @@ int	check_path(char **path, t_cmd *cmd)
 	return (0);
 }
 
-int	check_file(t_cmd *cmd)
+int	checker_file(t_data *cmd)
 {
 	struct stat	buff;
 
@@ -64,9 +64,9 @@ int	check_file(t_cmd *cmd)
 	return (1);
 }
 
-void	free_cmd(t_cmd *cmd)
+void	free_cmd(t_data *cmd)
 {
-	t_cmd	*tmp;
+	t_data	*tmp;
 
 	while (cmd)
 	{

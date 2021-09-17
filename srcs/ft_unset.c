@@ -6,7 +6,7 @@
 /*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:16:09 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 20:16:30 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	var_valid(char *var)
 	return (0);
 }
 
-int	ft_unset(t_cmd *cmd)
+int	ft_unset(t_data *cmd)
 {
 	int		fd;
 	char	**params;

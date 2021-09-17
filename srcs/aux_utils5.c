@@ -32,7 +32,7 @@ void	cmp_builtin(char *name)
 	free(tmp);
 }
 
-void	tolower_builtin(t_cmd *cmd)
+void	tolower_builtin(t_data *cmd)
 {
 	if (!cmd->args)
 		return ;
@@ -54,7 +54,7 @@ void	dol_sign_status(char **line, char **superline)
 	g_main.status = 0;
 }
 
-void	*get_path(t_cmd *cmd, char **envp)
+void	*get_path(t_data *cmd, char **envp)
 {
 	char	**path;
 
@@ -73,10 +73,10 @@ void	*get_path(t_cmd *cmd, char **envp)
 		g_main.status = 1;
 		return (ft_free_array((void **)path));
 	}
-	if ((check_file(cmd)) == -1)
+	if ((checker_file(cmd)) == -1)
 		return (ft_free_array((void **)path));
-	else if ((check_file(cmd)) == 1)
-		if (!check_path(path, cmd))
+	else if ((checker_file(cmd)) == 1)
+		if (!checker_path(path, cmd))
 			return (ft_free_array((void **)path));
 	ft_free_array((void **)path);
 	return ((void *)1);

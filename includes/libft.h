@@ -58,7 +58,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 char				**ft_split(char const *s, char c);
 int					get_next_line(int fd, char **line);
-int					check_str_set(char *str, char *set);
+int					checker_str_set(char *str, char *set);
 char				**ft_split_set(char *str, char *set);
 void				*ft_free_array(void **array);
 int					ft_strlen_chr(const char *str, char c);

@@ -52,7 +52,7 @@ void	space_skipper(char **line)
 	}
 }
 
-void	squotes(char **line, char **superline, t_cmd *cmd)
+void	squotes(char **line, char **superline, t_data *cmd)
 {
 	*superline = ft_strnjoin(*superline, *line + 1,
 			ft_strlen_chr(*line + 1, '\''));
@@ -61,7 +61,7 @@ void	squotes(char **line, char **superline, t_cmd *cmd)
 		end_of_args(line, superline, cmd, 0);
 }
 
-void	dquotes(char **line, char **superline, t_cmd *cmd)
+void	dquotes(char **line, char **superline, t_data *cmd)
 {
 	(*line)++;
 	while (**line && **line != '\"')

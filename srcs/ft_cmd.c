@@ -1,20 +1,20 @@
 #include "../includes/minishell.h"
 
-void	put_back_cmd(t_cmd **start, t_cmd *new)
+void	put_back_cmd(t_data **start, t_data *new)
 {
-	t_cmd	*last;
+	t_data	*last;
 
 	if (!*start)
 	{
 		*start = new;
 		return ;
 	}
-	last = last_cmd(*start);
+	last = last_data(*start);
 	last->next = new;
 	new->prev = last;
 }
 
-int	check_cmd(t_cmd *start)
+int	checker_cmd(t_data *start)
 {
 	while (start)
 	{
@@ -25,11 +25,11 @@ int	check_cmd(t_cmd *start)
 	return (0);
 }
 
-t_cmd	*cmd_init(void)
+t_data	*cmd_init(void)
 {
-	t_cmd	*cmd;
+	t_data	*cmd;
 
-	cmd = (t_cmd *)malloc(sizeof(t_cmd));
+	cmd = (t_data *)malloc(sizeof(t_data));
 	cmd->args = NULL;
 	cmd->path = NULL;
 	cmd->next = NULL;
@@ -41,7 +41,7 @@ t_cmd	*cmd_init(void)
 	return (cmd);
 }
 
-void	fork_cmd_routine(t_cmd *cmd)
+void	fork_cmd_routine(t_data *cmd)
 {
 	char	**tmp;
 

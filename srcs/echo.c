@@ -19,7 +19,7 @@ int	echo_aux(char *str)
 	return (0);
 }
 
-int	check_params(char *param, int fd)
+int	checker_params(char *param, int fd)
 {
 	if (param == 0)
 	{
@@ -29,7 +29,7 @@ int	check_params(char *param, int fd)
 	return (0);
 }
 
-int	ft_echo(t_cmd *cmd)
+int	ft_echo(t_data *cmd)
 {
 	int		fd;
 	char	**params;
@@ -39,7 +39,7 @@ int	ft_echo(t_cmd *cmd)
 	fd = cmd->output;
 	params = cmd->args;
 	i = 1;
-	if (check_params(params[i], fd) == 1)
+	if (checker_params(params[i], fd) == 1)
 		return (0);
 	option = 0;
 	if (echo_aux(params[i]) == 0)

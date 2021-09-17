@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:14:29 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 17:31:41 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <../includes/minishell.h>
 
-int	ft_export(t_cmd *cmd)
+int	ft_export(t_data *cmd)
 {
 	int		fd;
 	char	**params;
@@ -35,7 +35,7 @@ int	ft_export(t_cmd *cmd)
 	return (0);
 }
 
-int	ft_pwd(t_cmd *cmd)
+int	ft_pwd(t_data *cmd)
 {
 	int		fd;
 	char	**params;
@@ -52,7 +52,7 @@ int	ft_pwd(t_cmd *cmd)
 	return (0);
 }
 
-int	builtin_handler(t_cmd *cmd)
+int	builtin_handler(t_data *cmd)
 {
 	if (!cmd->args)
 		return (0);

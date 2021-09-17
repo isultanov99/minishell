@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pipes.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 21:21:27 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/16 00:29:33 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	link_pipes(t_cmd *cmd)
+void	link_pipes(t_data *cmd)
 {
 	while (cmd)
 	{
@@ -27,7 +27,7 @@ void	link_pipes(t_cmd *cmd)
 	}
 }
 
-void	close_pipes(t_cmd *cmd)
+void	close_pipes(t_data *cmd)
 {
 	while (cmd->prev)
 		cmd = cmd->prev;
@@ -39,7 +39,7 @@ void	close_pipes(t_cmd *cmd)
 	}
 }
 
-void	add_pipe(t_cmd *cmd, char **line)
+void	add_pipe(t_data *cmd, char **line)
 {
 	(*line)++;
 	space_skipper(line);
