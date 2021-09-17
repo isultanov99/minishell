@@ -6,7 +6,7 @@
 /*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 19:03:46 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:14:28 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	dleft(char **line)
 	if ((get_input(stop, heredoc_fd)) > 0)
 	{
 		free(stop);
-		set_term();
+		set_termс();
 		return (-1);
 	}
 	heredoc_fd = open(".heredoc", O_RDONLY);

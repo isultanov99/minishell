@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:11:04 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 19:11:06 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:14:28 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	get_input(char *stop, int heredoc_fd)
 {
 	int	status;
 
-	reset_term();
+	reset_termс();
 	g_main.sig_pid = fork();
 	if (g_main.sig_pid == 0)
 	{

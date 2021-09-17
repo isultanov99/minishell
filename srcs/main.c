@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:09:56 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 19:09:59 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:14:28 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	set_signal();
 	tcgetattr(0, &g_main.termset);
-	set_term();
+	set_termс();
 	tputs(tgetstr("cl", 0), 1, output_func);
 	env_get(envp);
 	set_shlvl();

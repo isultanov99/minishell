@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 19:10:58 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 19:10:59 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:14:28 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void	str_to_exec(char *str);
 void	set_signal(void);
 void	control_characters(char *str);
 int		output_func(int c);
-void	set_term(void);
-void	reset_term(void);
+void	set_termс(void);
+void	reset_termс(void);
 int		builtin_handler(t_data *cmd);
 int		ft_echo(t_data *cmd);
 int		ft_cd(t_data *cmd);

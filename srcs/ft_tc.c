@@ -6,13 +6,13 @@
 /*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:44:09 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 19:03:46 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:14:28 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	set_term(void)
+void	set_termс(void)
 {
 	struct termios	setup;
 	char			*term;
@@ -25,7 +25,7 @@ void	set_term(void)
 	free(term);
 }
 
-void	reset_term(void)
+void	reset_termс(void)
 {
 	char			*term;
 
