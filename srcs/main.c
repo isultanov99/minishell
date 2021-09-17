@@ -2,16 +2,16 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
-	g_main.status = 0;
 	g_main.sig_pid = 0;
-	set_sig();
+	g_main.status = 0;
+	(void)argv;
+	(void)argc;
+	set_signal();
 	tcgetattr(0, &g_main.termset);
-	setup_term();
+	set_term();
 	tputs(tgetstr("cl", 0), 1, output_func);
 	env_get(envp);
-	shlvl_set();
+	set_shlvl();
 	h_create();
 	input();
 	dlist_free(g_main.hist.h_start);

@@ -26,7 +26,7 @@ void	shlvl_increment(char *shlvl)
 	free(new_shlvl);
 }
 
-void	shlvl_set(void)
+void	set_shlvl(void)
 {
 	char	*shlvl;
 	int		is_changed;

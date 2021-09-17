@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tc.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 20:44:09 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/15 20:44:23 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:03:46 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	setup_term(void)
+void	set_term(void)
 {
 	struct termios	setup;
 	char			*term;

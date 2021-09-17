@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirects.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 18:17:21 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 17:58:06 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:03:46 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	dleft(char **line)
 	if ((get_input(stop, heredoc_fd)) > 0)
 	{
 		free(stop);
-		setup_term();
+		set_term();
 		return (-1);
 	}
 	heredoc_fd = open(".heredoc", O_RDONLY);

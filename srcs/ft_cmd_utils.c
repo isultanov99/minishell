@@ -6,7 +6,7 @@
 /*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/17 18:23:25 by cpablo            #+#    #+#             */
-/*   Updated: 2021/09/17 18:23:26 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:03:46 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	exec_cmd(t_data *cmd)
 			scmd(cmd);
 		else
 			mcmd(cmd);
-		setup_term();
+		set_term();
 	}
 	free_cmd(cmd);
 }

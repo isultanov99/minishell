@@ -6,7 +6,7 @@
 /*   By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/17 18:57:03 by cpablo           ###   ########.fr       */
+/*   Updated: 2021/09/17 19:04:11 by cpablo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	sig_quit(int code)
 	}
 }
 
-void	set_sig(void)
+void	set_signal(void)
 {
 	signal(SIGQUIT, sig_quit);
 	signal(SIGINT, sig_int);
