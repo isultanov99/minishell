@@ -64,11 +64,16 @@ LIB_DIR 	= libft/
 
 RM			= rm -f
 
+BOLD = \033[1m
+COLOR_REGULAR = \033[0m
+COLOR_GREEN = \033[32m
+
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 			@make -C ./srcs/libft
 			gcc $(CFLAGS) -I$(INC) $^ $(LIBFT_FLAGS) $(TERMREAD) -o $(NAME)
+			@echo "$(BOLD)$(COLOR_GREEN)[OK]$(COLOR_REGULAR) Let's go crazy!"
 
 %.o:		%.c Makefile
 			@gcc -I $(INC) -MMD -MP -c $< -o $@
@@ -78,11 +83,13 @@ bonus:		all
 clean:
 			@make clean -C ./srcs/libft
 			@$(RM) $(OBJS) $(DEPENDS)
+			@echo "$(BOLD)$(COLOR_GREEN)[OK]$(COLOR_REGULAR) Files .o has been removed"
 
 fclean:		clean
 			@make fclean -C ./srcs/libft
 			@$(RM) $(NAME)
+			@echo "$(BOLD)$(COLOR_GREEN)[OK]$(COLOR_REGULAR) Our minishell has been removed"
 
 re:			fclean all
 
-.PHONY:		all clean fclean
+.PHONY:		all clean fclean re

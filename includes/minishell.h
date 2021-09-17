@@ -54,15 +54,15 @@ typedef struct s_cmd
 	struct s_cmd	*prev;
 }			t_cmd;
 
-typedef struct s_data
+typedef struct s_main
 {
 	struct termios	termset;
 	t_list			*env;
 	t_history		history;
 	int				status;
 	int				sig_pid;
-}					t_data;
-t_data		g_main;
+}					t_main;
+t_main		g_main;
 
 int		check_path(char **path, t_cmd *cmd);
 int		check_file(t_cmd *cmd);
