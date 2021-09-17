@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: natali <natali@student.42.fr>              +#+  +:+       +#+         #
+#    By: cpablo <cpablo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/11/04 21:47:04 by lkarliah          #+#    #+#              #
-#    Updated: 2021/07/28 17:49:49 by natali           ###   ########.fr        #
+#    Created: 2021/09/17 18:40:09 by cpablo            #+#    #+#              #
+#    Updated: 2021/09/17 18:40:09 by cpablo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ SRCS	= ft_memset.c \
 	ft_putnbr_fd.c \
 	ft_itoa.c \
 	ft_split_set.c \
-	array_free.c \
+	ft_free_array.c \
 	ft_strlen_chr.c \
 	ft_strnjoin.c \
 	ft_lstnew.c \
