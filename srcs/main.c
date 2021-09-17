@@ -12,9 +12,9 @@ int	main(int argc, char **argv, char **envp)
 	tputs(tgetstr("cl", 0), 1, output_func);
 	env_get(envp);
 	shlvl_set();
-	hist_create();
+	h_create();
 	input();
-	dlist_free(g_main.history.hist_start);
-	close(g_main.history.hist_fd);
+	dlist_free(g_main.hist.h_start);
+	close(g_main.hist.h_fd);
 	list_free(g_main.env);
 }

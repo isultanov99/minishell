@@ -48,12 +48,12 @@ void	dlist_print(t_dlist *dlist)
 
 void	dlist_end(void)
 {
-	g_main.history.hist_end = g_main.history.hist_start;
-	while (g_main.history.hist_end)
+	g_main.hist.h_end = g_main.hist.h_start;
+	while (g_main.hist.h_end)
 	{
-		if (g_main.history.hist_end->next == 0)
+		if (g_main.hist.h_end->next == 0)
 			break ;
-		g_main.history.hist_end = g_main.history.hist_end->next;
+		g_main.hist.h_end = g_main.hist.h_end->next;
 	}
 }
 

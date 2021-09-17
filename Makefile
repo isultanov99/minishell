@@ -40,14 +40,14 @@ SRC			= gnl/get_next_line_utils.c gnl/get_next_line.c gnl/gnl.c \
 			ft_shlvl.c \
 			ft_tc.c \
 			ft_unset.c \
-			ft_utils.c \
-			ft_utils2.c \
-			ft_utils3.c \
-			ft_utils4.c \
-			ft_utils5.c \
-			ft_utils6.c \
-			ft_utils7.c \
-			ft_utils8.c \
+			aux_utils.c \
+			aux_utils2.c \
+			aux_utils3.c \
+			aux_utils4.c \
+			aux_utils5.c \
+			aux_utils6.c \
+			aux_utils7.c \
+			aux_utils8.c \
 			main.c \
 			ft_cmd_utils.c \
 			signal.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 15:15:10 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/16 00:51:13 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:03:13 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	sig_int(int code)
 	{
 		print_message();
 		g_main.status = 1;
-		if (g_main.history.flag == 1)
-			hist_inp();
+		if (g_main.hist.flag == 1)
+			h_inp();
 		main_inp();
 	}
 	if (g_main.sig_pid > 0)
@@ -33,7 +33,7 @@ void	sig_quit(int code)
 	(void)code;
 	if (g_main.sig_pid != 0)
 	{
-		if (ft_strcmp(g_main.history.command, "read") != 0)
+		if (ft_strcmp(g_main.hist.command, "read") != 0)
 		{
 			write(1, "Quit: ", 6);
 			ft_putnbr_fd(code, 1);

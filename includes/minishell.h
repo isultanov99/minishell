@@ -29,17 +29,17 @@ typedef struct s_dlist
 	struct s_dlist	*prev;
 }					t_dlist;
 
-typedef struct s_history
+typedef struct s_hist
 {
-	int				hist_fd;
-	t_dlist			*hist_start;
-	t_dlist			*hist_end;
+	int				h_fd;
+	t_dlist			*h_start;
+	t_dlist			*h_end;
 	int				flag;
-	char			*hist_buf;
+	char			*h_buf;
 	char			*command;
-	int				hist_print;
+	int				h_print;
 	int				command_print;
-}					t_history;
+}					t_hist;
 
 typedef struct s_data
 {
@@ -58,7 +58,7 @@ typedef struct s_main
 {
 	struct termios	termset;
 	t_list			*env;
-	t_history		history;
+	t_hist		hist;
 	int				status;
 	int				sig_pid;
 }					t_main;
@@ -86,7 +86,7 @@ void	dlist_free(t_dlist *dlist);
 void	dlist_end(void);
 int		n_is_print(char *str);
 void	dol_sign_status(char **line, char **superline);
-void	hist_or_command(char *buf);
+void	h_or_command(char *buf);
 char	*get_command(char *str, char *add);
 void	print_message(void);
 void	input(void);
@@ -94,8 +94,8 @@ char	*str_end(char *str);
 int		keys(char *key);
 void	keypressenter(void);
 void	home_dir(char *message);
-void	hist_create(void);
-void	hist_add_str(char *str);
+void	h_create(void);
+void	h_add_str(char *str);
 void	str_to_exec(char *str);
 void	set_sig(void);
 void	control_characters(char *str);
@@ -131,10 +131,10 @@ int		get_input(char *stop, int heredoc_fd);
 void	add_pipe(t_data *cmd, char **line);
 void	link_pipes(t_data *start);
 void	close_pipes(t_data *cmd);
-void	hist_input(void);
+void	h_input(void);
 void	main_input(void);
 void	main_inp(void);
-void	hist_inp(void);
+void	h_inp(void);
 void	sigquit_handler(int code);
 void	sigint_handler(int code);
 void	put_back_cmd(t_data **start, t_data *new);

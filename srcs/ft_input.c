@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_input.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmangree <bmangree@42.fr>                  +#+  +:+       +#+        */
+/*   By: bmangree <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 20:25:00 by bmangree          #+#    #+#             */
-/*   Updated: 2021/09/16 00:31:28 by bmangree         ###   ########.fr       */
+/*   Updated: 2021/09/17 18:03:13 by bmangree         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,44 +14,44 @@
 
 void	main_input(void)
 {
-	g_main.history.command = str_end(g_main.history.command);
-	if (g_main.history.command[0] != '\0')
+	g_main.hist.command = str_end(g_main.hist.command);
+	if (g_main.hist.command[0] != '\0')
 	{
-		hist_add_str(g_main.history.command);
-		parse_cmd(g_main.history.command);
+		h_add_str(g_main.hist.command);
+		parse_cmd(g_main.hist.command);
 	}
-	g_main.history.command_print = 0;
+	g_main.hist.command_print = 0;
 	dlist_end();
 }
 
-void	hist_input(void)
+void	h_input(void)
 {
-	g_main.history.hist_end->content
-		= str_end(g_main.history.hist_end->content);
-	if (((char *)(g_main.history.hist_end->content))[0] != '\0')
+	g_main.hist.h_end->content
+		= str_end(g_main.hist.h_end->content);
+	if (((char *)(g_main.hist.h_end->content))[0] != '\0')
 	{
-		hist_add_str(g_main.history.hist_end->content);
-		parse_cmd(g_main.history.hist_end->content);
+		h_add_str(g_main.hist.h_end->content);
+		parse_cmd(g_main.hist.h_end->content);
 	}
-	free(g_main.history.hist_end->content);
-	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);
+	free(g_main.hist.h_end->content);
+	g_main.hist.h_end->content = ft_strdup(g_main.hist.h_buf);
 	dlist_end();
 }
 
 void	main_inp(void)
 {
-	g_main.history.flag = 0;
-	if (g_main.history.command != NULL)
-		free(g_main.history.command);
-	g_main.history.command = NULL;
-	g_main.history.command_print = 0;
+	g_main.hist.flag = 0;
+	if (g_main.hist.command != NULL)
+		free(g_main.hist.command);
+	g_main.hist.command = NULL;
+	g_main.hist.command_print = 0;
 	dlist_end();
 }
 
-void	hist_inp(void)
+void	h_inp(void)
 {
-	free(g_main.history.hist_end->content);
-	g_main.history.hist_end->content = ft_strdup(g_main.history.hist_buf);
+	free(g_main.hist.h_end->content);
+	g_main.hist.h_end->content = ft_strdup(g_main.hist.h_buf);
 }
 
 void	input(void)
@@ -60,9 +60,9 @@ void	input(void)
 	char	buf[4];
 
 	print_message();
-	g_main.history.command_print = 0;
-	g_main.history.command = NULL;
-	g_main.history.hist_buf = NULL;
+	g_main.hist.command_print = 0;
+	g_main.hist.command = NULL;
+	g_main.hist.h_buf = NULL;
 	while (1)
 	{
 		i = read(0, buf, 3);
@@ -70,10 +70,10 @@ void	input(void)
 		if (!keys(buf) && n_is_print(buf) == 0)
 		{
 			write(1, buf, i);
-			hist_or_command(buf);
+			h_or_command(buf);
 		}
 		control_characters(buf);
 	}
-	free(g_main.history.command);
-	free(g_main.history.hist_buf);
+	free(g_main.hist.command);
+	free(g_main.hist.h_buf);
 }
